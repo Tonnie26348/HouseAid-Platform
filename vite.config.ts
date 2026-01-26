@@ -4,8 +4,12 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
-export default defineConfig(({ mode }) => ({
-  base: '/HouseAid-Platform/',
+export default defineConfig(({ mode }) => {
+  const isProduction = mode === 'production';
+  const base = isProduction ? '/HouseAid-Platform/' : '/';
+
+  return {
+    base,
   build: {
     outDir: 'dist-gh',
   },
