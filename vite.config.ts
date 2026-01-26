@@ -5,7 +5,7 @@ import { componentTagger } from "lovable-tagger";
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => ({
-  base: '/HouseAid-System/',
+  base: '/HouseAid-Platform/',
   build: {
     outDir: 'dist-gh',
   },
