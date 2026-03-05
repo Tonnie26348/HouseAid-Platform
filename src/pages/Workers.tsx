@@ -54,9 +54,9 @@ const Workers = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Premium Hero Section */}
-      <section className="relative pt-32 pb-24 overflow-hidden bg-gray-900 text-white">
-        <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://images.unsplash.com/photo-1581578731548-c64695cc6958?auto=format&fit=crop&q=80')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent" />
+      <section className="relative pt-32 pb-24 overflow-hidden bg-white">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" />
         
         <div className="container mx-auto px-4 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -65,15 +65,15 @@ const Workers = () => {
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-bold mb-6">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6">
                 <Award className="w-4 h-4" />
                 <span>Elevate Your Professional Career</span>
               </div>
-              <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-[1.1]">
+              <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-[1.1] text-gray-900">
                 Dignity, Growth, <br /> 
                 <span className="text-primary">& Better Pay.</span>
               </h1>
-              <p className="text-xl text-gray-300 mb-10 leading-relaxed font-medium max-w-xl">
+              <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium max-w-xl">
                 Join Kenya's first professional network for domestic specialists. 
                 Get certified, find verified employers, and build the career you deserve.
               </p>
@@ -81,7 +81,7 @@ const Workers = () => {
                 <Button asChild size="lg" className="h-16 px-10 text-xl rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
                   <Link to="/join">Apply as Professional</Link>
                 </Button>
-                <Button asChild variant="outline" size="lg" className="h-16 px-10 text-xl rounded-2xl border-2 bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all">
+                <Button asChild variant="outline" size="lg" className="h-16 px-10 text-xl rounded-2xl border-2 hover:bg-gray-50 transition-all">
                   <Link to="/how-it-works">Learn the Process</Link>
                 </Button>
               </div>
@@ -92,7 +92,7 @@ const Workers = () => {
               transition={{ duration: 1 }}
               className="relative hidden lg:block"
             >
-              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/10">
+              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
                 <img src={heroImage} alt="Professional worker" className="w-full h-[600px] object-cover" />
               </div>
             </motion.div>

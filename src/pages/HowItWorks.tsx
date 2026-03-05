@@ -65,9 +65,9 @@ const HowItWorks = () => {
   return (
     <div className="min-h-screen bg-white">
       {/* Premium Hero */}
-      <section className="relative pt-32 pb-24 overflow-hidden bg-gray-900 text-white">
-        <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80')] bg-cover bg-center" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900" />
+      <section className="relative pt-32 pb-24 overflow-hidden bg-white">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-3xl -translate-x-1/4 translate-y-1/4" />
         
         <div className="container mx-auto px-4 relative z-10 text-center">
           <motion.div
@@ -75,12 +75,12 @@ const HowItWorks = () => {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
           >
-            <Badge className="bg-primary/20 text-primary border-none mb-6 px-4 py-1.5 text-sm font-bold uppercase tracking-widest">Platform Guide</Badge>
-            <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-tight">
+            <Badge className="bg-primary/10 text-primary border-none mb-6 px-4 py-1.5 text-sm font-bold uppercase tracking-widest">Platform Guide</Badge>
+            <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-tight text-gray-900">
               A New Standard for <br /> 
               <span className="text-primary">Household Management.</span>
             </h1>
-            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium">
+            <p className="text-xl text-gray-500 max-w-3xl mx-auto leading-relaxed font-medium">
               We've redesigned the hiring process from the ground up to prioritize 
               safety, dignity, and world-class efficiency.
             </p>
