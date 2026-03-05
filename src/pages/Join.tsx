@@ -42,6 +42,9 @@ const formSchema = z
 const Join = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -75,13 +78,57 @@ const Join = () => {
     }
 
     if (signUpData.user) {
+        setRegisteredEmail(values.email);
+        setIsSubmitted(true);
         toast({
-            title: "Welcome to HouseAid!",
-            description: "Your account has been created. Redirecting to login...",
+            title: "Account Created!",
+            description: "Please check your email to verify your account.",
         });
-        navigate("/login");
     }
   };
+
+  if (isSubmitted) {
+    return (
+      <div className="min-h-screen bg-white flex flex-col items-center justify-center p-6 text-center font-sans">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.9 }}
+          animate={{ opacity: 1, scale: 1 }}
+          className="max-w-md w-full bg-white p-10 md:p-16 rounded-[3rem] shadow-xl shadow-gray-200/50 relative overflow-hidden"
+        >
+          <div className="absolute top-0 left-0 w-full h-2 bg-primary" />
+          
+          <div className="mb-10 inline-flex items-center justify-center w-24 h-24 rounded-[2rem] bg-primary/10 text-primary">
+             <Mail className="w-12 h-12" strokeWidth={2.5} />
+          </div>
+
+          <h1 className="text-3xl font-black text-gray-900 mb-4 tracking-tight">Confirm Your Email</h1>
+          <p className="text-gray-500 font-medium mb-10 leading-relaxed text-lg">
+            We've sent a secure verification link to <br />
+            <span className="text-primary font-bold">{registeredEmail}</span>. <br />
+            Please click the link to activate your HouseAid account.
+          </p>
+
+          <div className="space-y-4">
+            <Button asChild size="lg" className="w-full h-14 rounded-2xl font-black shadow-lg shadow-primary/20">
+              <Link to="/login">Proceed to Login</Link>
+            </Button>
+            <Button 
+              variant="ghost" 
+              className="w-full h-12 rounded-xl font-bold text-gray-400 hover:text-gray-900"
+              onClick={() => setIsSubmitted(false)}
+            >
+              Didn't get the email? Try again.
+            </Button>
+          </div>
+
+          <div className="mt-12 flex items-center justify-center gap-2 text-gray-300 font-bold text-[10px] uppercase tracking-widest">
+             <ShieldCheck className="w-3.5 h-3.5" />
+             <span>HouseAid Secure Verification</span>
+          </div>
+        </motion.div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen flex bg-white font-sans">
