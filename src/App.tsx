@@ -44,7 +44,7 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter basename="/HouseAid-System">
+      <BrowserRouter basename="/HouseAid-Platform">
         <AuthProvider>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
