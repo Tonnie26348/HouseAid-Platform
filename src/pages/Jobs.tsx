@@ -198,4 +198,3 @@ const Jobs = () => {
 
 export default Jobs;
 
-export default Jobs;

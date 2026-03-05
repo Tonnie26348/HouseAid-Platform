@@ -212,4 +212,3 @@ const Partners = () => {
 
 export default Partners;
 
-export default Partners;

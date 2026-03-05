@@ -177,4 +177,3 @@ const EmployerProfileView = () => {
 
 export default EmployerProfileView;
 
-export default EmployerProfileView;

@@ -140,4 +140,3 @@ const EmployerDashboard = () => {
 
 export default EmployerDashboard;
 
-export default EmployerDashboard;

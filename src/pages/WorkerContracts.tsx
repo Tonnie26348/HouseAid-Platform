@@ -197,4 +197,3 @@ const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default WorkerContracts;
 
-export default WorkerContracts;

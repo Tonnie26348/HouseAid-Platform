@@ -121,4 +121,3 @@ const Card = ({ children, className }: { children: React.ReactNode, className?: 
 
 export default ForgotPassword;
 
-export default ForgotPassword;

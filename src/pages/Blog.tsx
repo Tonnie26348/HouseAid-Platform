@@ -264,4 +264,3 @@ const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default Blog;
 
-export default Blog;

@@ -253,4 +253,3 @@ const AllWorkers = () => {
 
 export default AllWorkers;
 
-export default AllWorkers;

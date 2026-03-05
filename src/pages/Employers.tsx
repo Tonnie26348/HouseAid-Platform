@@ -206,4 +206,3 @@ const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default Employers;
 
-export default Employers;

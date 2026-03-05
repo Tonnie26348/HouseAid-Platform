@@ -155,4 +155,3 @@ const MyWorkers = () => {
 
 export default MyWorkers;
 
-export default MyWorkers;

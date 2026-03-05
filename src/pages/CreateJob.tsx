@@ -203,4 +203,3 @@ const CreateJob = () => {
 
 export default CreateJob;
 
-export default CreateJob;

@@ -281,4 +281,3 @@ const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default JobDetail;
 
-export default JobDetail;

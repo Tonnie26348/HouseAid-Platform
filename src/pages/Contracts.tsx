@@ -169,4 +169,3 @@ const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default Contracts;
 
-export default Contracts;
