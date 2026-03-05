@@ -57,6 +57,7 @@ const Join = () => {
       email: values.email,
       password: values.password,
       options: {
+        emailRedirectTo: "https://tonnie26348.github.io/HouseAid-Platform/",
         data: {
           full_name: values.fullName,
           role: values.role,

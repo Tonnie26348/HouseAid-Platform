@@ -33,7 +33,7 @@ const ForgotPassword = () => {
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const { error } = await supabase.auth.resetPasswordForEmail(values.email, {
-        redirectTo: `${window.location.origin}/HouseAid-System/update-password`,
+        redirectTo: "https://tonnie26348.github.io/HouseAid-Platform/update-password",
     });
 
     if (error) {
