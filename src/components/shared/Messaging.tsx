@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
 
 interface MessagingProps {
   receiverId: string;
@@ -20,8 +21,13 @@ const Messaging: React.FC<MessagingProps> = ({ receiverId, receiverName }) => {
     e.preventDefault();
     if (!newMessage.trim()) return;
     
-    await sendMessage.mutateAsync({ receiverId, content: newMessage });
-    setNewMessage("");
+    try {
+      await sendMessage.mutateAsync({ receiverId, content: newMessage });
+      setNewMessage("");
+      toast.success("Message sent!");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to send message");
+    }
   };
 
   return (

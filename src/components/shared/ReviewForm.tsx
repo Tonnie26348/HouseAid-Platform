@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Star } from "lucide-react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { toast } from "sonner";
 
 interface ReviewFormProps {
   revieweeId: string;
@@ -16,9 +17,14 @@ const ReviewForm: React.FC<ReviewFormProps> = ({ revieweeId }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await addReview.mutateAsync({ reviewee_id: revieweeId, rating, comment });
-    setComment("");
-    setRating(5);
+    try {
+      await addReview.mutateAsync({ reviewee_id: revieweeId, rating, comment });
+      setComment("");
+      setRating(5);
+      toast.success("Review submitted successfully!");
+    } catch (error: any) {
+      toast.error(error.message || "Failed to submit review");
+    }
   };
 
   return (
