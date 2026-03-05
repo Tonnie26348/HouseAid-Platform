@@ -1,198 +1,189 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Mail, Phone, MapPin, Clock, MessageCircle } from "lucide-react";
+import { Mail, Phone, MapPin, Clock, Send, MessageCircle, ShieldCheck, Globe } from "lucide-react";
+import { motion } from "framer-motion";
 
 const Contact = () => {
   const contactMethods = [
     {
       icon: Mail,
-      title: "Email Us",
-      info: "info@houseaid.co.ke",
-      description: "Send us an email anytime"
+      title: "Email Support",
+      info: "hello@houseaid.co.ke",
+      description: "Response within 2 hours",
+      color: "text-blue-600",
+      bg: "bg-blue-50"
     },
     {
       icon: Phone,
       title: "Call Us",
-      info: "+254798121497",
-      description: "Mon-Fri, 8am-6pm EAT"
+      info: "+254 700 000 000",
+      description: "Mon-Fri, 8am-6pm",
+      color: "text-green-600",
+      bg: "bg-green-50"
     },
     {
       icon: MapPin,
-      title: "Visit Us",
-      info: "Nairobi, Kenya",
-      description: "Head office location"
+      title: "Visit Office",
+      info: "Kilimani, Nairobi",
+      description: "Main HQ Office",
+      color: "text-red-600",
+      bg: "bg-red-50"
     },
     {
-      icon: Clock,
-      title: "Support Hours",
-      info: "8am - 6pm EAT",
-      description: "Monday to Friday"
+      icon: Globe,
+      title: "Global Inquiries",
+      info: "partners@houseaid.com",
+      description: "For international partners",
+      color: "text-purple-600",
+      bg: "bg-purple-50"
     }
   ];
 
   return (
-    <div className="min-h-screen">
-      
-      {/* Hero */}
-      <section className="pt-24 pb-16 gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6">Get in Touch</h1>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
-            Have questions? We're here to help. Reach out and we'll get back to you within 24 hours.
-          </p>
+    <div className="min-h-screen bg-white">
+      {/* Premium Hero */}
+      <section className="relative pt-32 pb-20 overflow-hidden bg-gray-900 text-white">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://images.unsplash.com/photo-1423666639041-f56000c27a9a?auto=format&fit=crop&q=80')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900/90" />
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight">How can we <span className="text-primary">Help?</span></h1>
+            <p className="text-xl text-gray-300 max-w-2xl mx-auto leading-relaxed font-medium">
+              Our world-class support team is dedicated to providing you with the 
+              fastest, most reliable assistance in Kenya.
+            </p>
+          </motion.div>
         </div>
       </section>
 
-      {/* Contact Methods */}
-      <section className="py-16">
+      {/* Quick Contact Cards */}
+      <section className="py-12 -mt-10 relative z-20">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-            {contactMethods.map((method, index) => {
-              const Icon = method.icon;
-              return (
-                <Card key={index} className="p-6 text-center hover:shadow-medium transition-shadow">
-                  <div className="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center mx-auto mb-4">
-                    <Icon className="h-8 w-8 text-primary-foreground" />
-                  </div>
-                  <h3 className="font-semibold text-lg mb-2">{method.title}</h3>
-                  <p className="text-primary font-semibold mb-1">{method.info}</p>
-                  <p className="text-sm text-muted-foreground">{method.description}</p>
-                </Card>
-              );
-            })}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {contactMethods.map((method, i) => (
+              <Card key={i} className="rounded-[2rem] border-none shadow-xl shadow-gray-200/50 p-8 text-center bg-white hover:-translate-y-1 transition-all duration-300">
+                <div className={`w-14 h-14 rounded-2xl ${method.bg} ${method.color} flex items-center justify-center mx-auto mb-6`}>
+                  <method.icon className="w-7 h-7" />
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-2">{method.title}</h3>
+                <p className="text-primary font-bold mb-1">{method.info}</p>
+                <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">{method.description}</p>
+              </Card>
+            ))}
           </div>
+        </div>
+      </section>
 
-          {/* Contact Form & Map */}
-          <div className="grid lg:grid-cols-2 gap-12">
-            {/* Form */}
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Send Us a Message</h2>
-              <Card className="p-8">
+      {/* Main Contact Area */}
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
+            {/* Form Side */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <div className="mb-10">
+                <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tight">Send a Message</h2>
+                <p className="text-lg text-gray-500 font-medium">Fill out the form below and we'll be in touch shortly.</p>
+              </div>
+
+              <Card className="rounded-[2.5rem] border-none shadow-sm bg-gray-50 p-8 md:p-10">
                 <form className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <div>
-                      <label className="block text-sm font-medium mb-2">First Name</label>
-                      <Input placeholder="John" />
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-700 ml-1">Full Name</label>
+                      <Input placeholder="John Doe" className="h-12 rounded-xl border-gray-200 bg-white focus:ring-primary" />
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium mb-2">Last Name</label>
-                      <Input placeholder="Doe" />
+                    <div className="space-y-2">
+                      <label className="text-sm font-bold text-gray-700 ml-1">Email Address</label>
+                      <Input type="email" placeholder="john@example.com" className="h-12 rounded-xl border-gray-200 bg-white focus:ring-primary" />
                     </div>
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email Address</label>
-                    <Input type="email" placeholder="john@example.com" />
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-700 ml-1">Subject</label>
+                    <Input placeholder="How can we help?" className="h-12 rounded-xl border-gray-200 bg-white focus:ring-primary" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Phone Number</label>
-                    <Input placeholder="+254 700 000 000" />
+                  <div className="space-y-2">
+                    <label className="text-sm font-bold text-gray-700 ml-1">Message</label>
+                    <Textarea placeholder="Tell us more about your inquiry..." className="min-h-[150px] rounded-xl border-gray-200 bg-white focus:ring-primary" />
                   </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Subject</label>
-                    <select className="w-full px-3 py-2 border border-input rounded-md bg-background">
-                      <option>Select a subject</option>
-                      <option>General Inquiry</option>
-                      <option>Employer Support</option>
-                      <option>Worker Support</option>
-                      <option>Partnership Opportunity</option>
-                      <option>Technical Issue</option>
-                      <option>Other</option>
-                    </select>
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Message</label>
-                    <Textarea 
-                      placeholder="Tell us how we can help..." 
-                      rows={6}
-                    />
-                  </div>
-                  <Button className="w-full gradient-primary text-primary-foreground" size="lg">
-                    <MessageCircle className="h-5 w-5 mr-2" />
-                    Send Message
+                  <Button className="w-full h-14 rounded-xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.01] transition-all">
+                    <Send className="w-5 h-5 mr-2" /> Send Message
                   </Button>
                 </form>
               </Card>
-            </div>
+            </motion.div>
 
-            {/* Info & Map */}
-            <div>
-              <h2 className="text-3xl font-bold mb-6">Find Us</h2>
-              <Card className="p-8 mb-6">
-                <h3 className="font-semibold text-xl mb-4">HouseAid Headquarters</h3>
-                <div className="space-y-4 mb-6">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <p className="font-medium">Address</p>
-                      <p className="text-muted-foreground">Nairobi, Kenya</p>
+            {/* Info Side */}
+            <div className="space-y-8">
+              <div>
+                <h2 className="text-4xl font-black text-gray-900 mb-10 tracking-tight">Locate Us</h2>
+                <Card className="rounded-[2.5rem] border-none shadow-sm bg-white overflow-hidden border border-gray-100">
+                  <div className="p-8 space-y-8">
+                    <div className="flex gap-6">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                        <MapPin className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-1">Nairobi Headquarters</h4>
+                        <p className="text-gray-500 font-medium leading-relaxed">
+                          12th Floor, Western Heights <br />
+                          Karuna Road, Westlands, Nairobi
+                        </p>
+                      </div>
+                    </div>
+                    <div className="flex gap-6">
+                      <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center flex-shrink-0">
+                        <Clock className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-1">Working Hours</h4>
+                        <p className="text-gray-500 font-medium">Monday — Friday: 08:00 - 18:00</p>
+                        <p className="text-gray-500 font-medium">Saturday: 09:00 - 13:00</p>
+                      </div>
                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Phone className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <p className="font-medium">Phone</p>
-                      <p className="text-muted-foreground">+254798121497</p>
-                    </div>
+                  {/* Visual Placeholder for Map */}
+                  <div className="h-64 bg-gray-100 flex items-center justify-center relative group cursor-pointer">
+                     <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&q=80')] bg-cover bg-center opacity-50 group-hover:scale-105 transition-transform duration-700" />
+                     <div className="relative z-10 bg-white/90 backdrop-blur-md px-6 py-3 rounded-full shadow-xl border border-white/50 flex items-center gap-2">
+                        <MapPin className="w-5 h-5 text-primary" />
+                        <span className="font-bold text-gray-900 text-sm">Open in Google Maps</span>
+                     </div>
                   </div>
-                  <div className="flex items-start gap-3">
-                    <Mail className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <p className="font-medium">Email</p>
-                      <p className="text-muted-foreground">info@houseaid.co.ke</p>
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <Clock className="h-5 w-5 text-primary mt-1" />
-                    <div>
-                      <p className="font-medium">Working Hours</p>
-                      <p className="text-muted-foreground">Monday - Friday: 8am - 6pm EAT</p>
-                      <p className="text-muted-foreground">Saturday: 9am - 2pm EAT</p>
-                      <p className="text-muted-foreground">Sunday: Closed</p>
-                    </div>
-                  </div>
-                </div>
-                {/* Map Placeholder */}
-                <div className="aspect-video bg-muted rounded-lg flex items-center justify-center">
-                  <MapPin className="h-16 w-16 text-muted-foreground" />
-                </div>
-              </Card>
+                </Card>
+              </div>
 
-              <Card className="p-6 gradient-hero text-primary-foreground">
-                <h3 className="font-semibold text-lg mb-2">Need Urgent Help?</h3>
-                <p className="opacity-90 mb-4">
-                  For urgent issues or emergencies, please call our support hotline
+              <Card className="rounded-[2rem] border-none shadow-xl shadow-primary/5 bg-primary p-8 text-white relative overflow-hidden">
+                <div className="absolute top-0 right-0 p-4 opacity-10">
+                  <ShieldCheck className="w-20 h-20" />
+                </div>
+                <h3 className="text-2xl font-black mb-4 relative z-10">Trust & Safety</h3>
+                <p className="text-primary-foreground/80 leading-relaxed font-medium mb-6 relative z-10">
+                  For urgent safety concerns or to report an incident, please use our 
+                  dedicated 24/7 emergency line.
                 </p>
-                <Button variant="secondary" className="w-full">
-                  <Phone className="h-5 w-5 mr-2" />
-                  Call Support Hotline
+                <Button variant="secondary" className="w-full h-12 rounded-xl font-bold relative z-10">
+                  Report an Incident
                 </Button>
               </Card>
             </div>
           </div>
         </div>
       </section>
-
-      {/* FAQs Link */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Looking for Answers?</h2>
-          <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
-            Check out our frequently asked questions or contact us directly
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Button size="lg" variant="outline">
-              View FAQs
-            </Button>
-            <Button size="lg">
-              Schedule a Call
-            </Button>
-          </div>
-        </div>
-      </section>
     </div>
   );
 };
+
+export default Contact;
 
 export default Contact;

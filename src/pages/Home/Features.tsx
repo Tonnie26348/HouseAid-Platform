@@ -1,102 +1,110 @@
 import { Card } from "@/components/ui/card";
-import { Shield, FileText, MapPin, Smartphone, Award, TrendingUp } from "lucide-react";
+import { Shield, FileText, MapPin, Smartphone, Award, TrendingUp, CheckCircle2 } from "lucide-react";
 import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
 
 const Features = () => {
   const features = [
     {
       icon: Shield,
       title: "Verified Profiles",
-      description: "All workers undergo background checks and skills verification for your peace of mind."
+      description: "Every professional on HouseAid undergoes a rigorous background check and identity verification.",
+      color: "text-blue-600",
+      bg: "bg-blue-50"
     },
     {
       icon: FileText,
-      title: "Digital Contracts",
-      description: "Clear, legal contracts protect both employers and workers with transparent terms."
-    },
-    {
-      icon: MapPin,
-      title: "GPS Tracking",
-      description: "Know when your worker arrives and leaves with real-time location tracking."
+      title: "Legal Protection",
+      description: "Our digital contracts are legally binding, protecting both households and domestic workers.",
+      color: "text-purple-600",
+      bg: "bg-purple-50"
     },
     {
       icon: Smartphone,
-      title: "Easy Payments",
-      description: "Secure digital payment system ensures timely and transparent salary processing."
+      title: "Instant Payments",
+      description: "Direct M-Pesa integration ensures safe, transparent, and immediate salary processing.",
+      color: "text-green-600",
+      bg: "bg-green-50"
     },
     {
       icon: Award,
-      title: "Training & Certification",
-      description: "Workers receive professional training and certification for quality service."
+      title: "Certified Skills",
+      description: "We partner with top institutions to certify domestic skills from culinary to elderly care.",
+      color: "text-orange-600",
+      bg: "bg-orange-50"
+    },
+    {
+      icon: MapPin,
+      title: "Local Excellence",
+      description: "Find the best talent in your neighborhood, from Kilimani to Nyali and beyond.",
+      color: "text-red-600",
+      bg: "bg-red-50"
     },
     {
       icon: TrendingUp,
       title: "Career Growth",
-      description: "Support workers in building professional careers with development opportunities."
+      description: "Empowering workers with financial history and professional reviews to build their future.",
+      color: "text-cyan-600",
+      bg: "bg-cyan-50"
     }
   ];
 
-  const containerVariants = {
-    hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 0.5,
-      },
-    },
-  };
-
   return (
-    <section className="py-20 bg-gray-50">
-      <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-12"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Choose HouseAid?</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            We're revolutionizing domestic work with technology, transparency, and trust
+    <section className="py-24 bg-white relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+      
+      <div className="container mx-auto px-4 relative">
+        <div className="text-center max-w-3xl mx-auto mb-20">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 text-primary text-sm font-bold mb-4"
+          >
+            <CheckCircle2 className="w-4 h-4" />
+            <span>The HouseAid Advantage</span>
+          </motion.div>
+          
+          <h2 className="text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight text-gray-900">
+            Why the best homes <br /> 
+            <span className="text-primary">Choose HouseAid</span>
+          </h2>
+          <p className="text-xl text-gray-500 font-medium leading-relaxed">
+            We've combined Kenyan hospitality with world-class technology to create 
+            a platform that prioritizes safety, dignity, and efficiency.
           </p>
-        </motion.div>
-        <motion.div
-          className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-        >
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <motion.div key={index} variants={itemVariants}>
-                <Card className="p-6 h-full text-center bg-white shadow-lg hover:shadow-xl transition-shadow duration-300 transform hover:-translate-y-1">
-                  <div className="inline-block p-4 bg-primary text-white rounded-full mb-4">
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="group p-8 h-full border-none bg-gray-50/50 hover:bg-white hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 rounded-[2.5rem]">
+                  <div className={cn("inline-flex p-4 rounded-2xl mb-6 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-3", feature.bg, feature.color)}>
                     <Icon className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-2xl font-extrabold mb-4 text-gray-900">{feature.title}</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed text-lg">
+                    {feature.description}
+                  </p>
                 </Card>
               </motion.div>
             );
           })}
-        </motion.div>
+        </div>
       </div>
     </section>
   );
 };
+
+export default Features;
 
 export default Features;
 

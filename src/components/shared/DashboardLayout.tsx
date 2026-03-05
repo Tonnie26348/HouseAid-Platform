@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Bell,
   Home,
@@ -6,10 +7,21 @@ import {
   Settings,
   LogOut,
   User,
-  Menu, // Added Menu icon
+  Menu,
+  X,
+  MessageSquare,
+  ShieldCheck,
+  Briefcase
 } from "lucide-react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import { Logo } from "./Logo";
+import { Button } from "@/components/ui/button";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/lib/supabase";
+import { motion, AnimatePresence } from "framer-motion";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { cn } from "@/lib/utils";
+import NotificationBell from "./NotificationBell";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -28,112 +40,152 @@ const Sidebar = ({
 
   const employerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
+    { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
     { to: "/platform/workers", icon: Users, label: "My Workers" },
-    { to: "/platform/all-workers", icon: Users, label: "Browse Workers" },
+    { to: "/platform/all-workers", icon: Briefcase, label: "Browse Workers" },
     { to: "/platform/contracts", icon: FileText, label: "Contracts" },
+    { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
   const workerLinks = [
+    { to: "/platform", icon: Home, label: "Dashboard" },
+    { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
     { to: "/platform/profile", icon: User, label: "My Profile" },
-    { to: "/platform/jobs", icon: FileText, label: "Jobs" },
+    { to: "/platform/jobs", icon: Briefcase, label: "Available Jobs" },
     { to: "/platform/my-contracts", icon: FileText, label: "My Contracts" },
+    { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
   const links = user?.user_metadata.role === "employer" ? employerLinks : workerLinks;
 
   return (
-    <aside
-      className={`fixed inset-y-0 left-0 z-50 w-64 flex-shrink-0 bg-gray-800 text-white flex flex-col transform transition-transform ease-in-out duration-300 ${
-        isSidebarOpen ? "translate-x-0" : "-translate-x-full"
-      } md:relative md:translate-x-0 md:flex`}
-    >
-      <div className="h-20 flex items-center px-6">
-        <Link to="/" className="flex items-center space-x-2">
-          <Logo />
-          <span className="font-bold text-xl">HouseAid</span>
-        </Link>
-      </div>
-      <nav className="flex-grow px-4">
-        {links.map((link) => (
-          <NavLink
-            key={link.to}
-            to={link.to}
-            end
-            onClick={() => setSidebarOpen(false)} // Close sidebar on navigation
-            className={({ isActive }) =>
-              `flex items-center px-4 py-3 rounded-md transition-colors ${
-                isActive
-                  ? "bg-gray-700 text-white"
-                  : "text-gray-400 hover:bg-gray-700 hover:text-white"
-              }`
-            }
+    <>
+      {/* Mobile Overlay */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setSidebarOpen(false)}
+            className="fixed inset-0 bg-gray-900/60 backdrop-blur-sm z-40 lg:hidden"
+          />
+        )}
+      </AnimatePresence>
+
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto",
+          isSidebarOpen ? "translate-x-0" : "-translate-x-full"
+        )}
+      >
+        <div className="h-20 flex items-center px-8 border-b border-gray-50">
+          <Link to="/" className="flex items-center space-x-3 group">
+            <div className="p-1.5 bg-primary/10 rounded-xl group-hover:scale-110 transition-transform">
+              <Logo />
+            </div>
+            <span className="font-black text-2xl tracking-tight text-gray-900">HouseAid</span>
+          </Link>
+        </div>
+
+        <nav className="flex-grow py-8 px-4 space-y-1 overflow-y-auto">
+          {links.map((link) => (
+            <NavLink
+              key={link.to}
+              to={link.to}
+              end
+              onClick={() => setSidebarOpen(false)}
+              className={({ isActive }) =>
+                cn(
+                  "flex items-center px-4 py-3.5 rounded-2xl font-bold transition-all duration-200 group",
+                  isActive
+                    ? "bg-primary text-white shadow-lg shadow-primary/20"
+                    : "text-gray-500 hover:bg-gray-50 hover:text-gray-900"
+                )
+              }
+            >
+              <link.icon className={cn("w-5 h-5 mr-3 transition-transform group-hover:scale-110")} />
+              {link.label}
+            </NavLink>
+          ))}
+        </nav>
+
+        <div className="p-6 border-t border-gray-50">
+          <Button
+            variant="ghost"
+            className="w-full justify-start text-gray-500 font-bold rounded-2xl hover:bg-red-50 hover:text-red-600 transition-colors"
+            onClick={handleLogout}
           >
-            <link.icon className="w-5 h-5 mr-3" />
-            {link.label}
-          </NavLink>
-        ))}
-      </nav>
-      <div className="p-4 border-t border-gray-700">
-        <Button
-          variant="ghost"
-          className="w-full justify-start text-left"
-          onClick={handleLogout}
-        >
-          <LogOut className="w-5 h-5 mr-3" />
-          Logout
-        </Button>
-      </div>
-    </aside>
+            <LogOut className="w-5 h-5 mr-3" />
+            Sign Out
+          </Button>
+        </div>
+      </aside>
+    </>
   );
 };
 
-const DashboardHeader = ({ setSidebarOpen }: { setSidebarOpen: (isOpen: boolean) => void }) => {
+const DashboardHeader = ({ 
+  setSidebarOpen, 
+  pageTitle 
+}: { 
+  setSidebarOpen: (isOpen: boolean) => void;
+  pageTitle: string;
+}) => {
   const { user } = useAuth();
   const [profile, setProfile] = React.useState<any>(null);
 
   React.useEffect(() => {
     const fetchProfile = async () => {
       if (user) {
-        const { data, error } = await supabase
+        const { data } = await supabase
           .from("profiles")
           .select("avatar_url, full_name, role")
           .eq("id", user.id)
           .single();
-
-        if (error) {
-          console.error("Error fetching profile for header:", error);
-        } else if (data) {
-          setProfile(data);
-        }
+        if (data) setProfile(data);
       }
     };
-
     fetchProfile();
   }, [user]);
 
   return (
-    <header className="h-20 bg-white border-b border-gray-200 flex items-center justify-between px-6">
-      <div className="flex items-center space-x-4">
+    <header className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between border-b border-gray-100">
+      <div className="flex items-center gap-4">
         <Button
           variant="ghost"
           size="icon"
-          className="md:hidden" // Hide on medium and larger screens
+          className="lg:hidden rounded-xl hover:bg-gray-100"
           onClick={() => setSidebarOpen(true)}
         >
           <Menu className="w-6 h-6 text-gray-600" />
         </Button>
-        <h1 className="text-2xl font-bold text-gray-800">Dashboard</h1>
+        <h1 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">{pageTitle}</h1>
       </div>
-      <div className="flex items-center space-x-4">
-        <Button variant="ghost" size="icon">
-          <Bell className="w-6 h-6 text-gray-600" />
-        </Button>
-        <div className="flex items-center space-x-2">
-          <img src={profile?.avatar_url || 'https://via.placeholder.com/150'} alt="Avatar" className="w-10 h-10 rounded-full" />
-          <div>
-            <div className="font-semibold">{profile?.full_name}</div>
-            <div className="text-sm text-gray-500 capitalize">{profile?.role}</div>
+
+      <div className="flex items-center gap-3 md:gap-6">
+        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-600">
+           <ShieldCheck className="w-4 h-4" />
+           <span className="text-xs font-bold uppercase tracking-wider">Secure Session</span>
+        </div>
+        
+        <NotificationBell />
+
+        <div className="h-8 w-px bg-gray-100 mx-1 md:mx-2" />
+
+        <div className="flex items-center gap-3 pl-2">
+          <div className="hidden md:block text-right">
+            <div className="text-sm font-bold text-gray-900 leading-none mb-1">{profile?.full_name}</div>
+            <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
+              {profile?.role || 'User'}
+            </div>
           </div>
+          <Avatar className="h-10 w-10 border-2 border-primary/10 shadow-sm">
+            <AvatarImage src={profile?.avatar_url} />
+            <AvatarFallback className="bg-primary/5 text-primary font-bold">
+              {profile?.full_name?.charAt(0)}
+            </AvatarFallback>
+          </Avatar>
         </div>
       </div>
     </header>
@@ -144,20 +196,19 @@ const DashboardLayout = ({ children, pageTitle = "Dashboard" }: { children: Reac
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-50">
-      {/* Backdrop for mobile */}
-      {isSidebarOpen && (
-        <div
-          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        ></div>
-      )}
-
+    <div className="flex h-screen bg-gray-50/50 font-sans">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
-      <div className="flex-1 flex flex-col overflow-hidden">
+      
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         <DashboardHeader setSidebarOpen={setSidebarOpen} pageTitle={pageTitle} />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
-          {children}
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10">
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            {children}
+          </motion.div>
         </main>
       </div>
     </div>

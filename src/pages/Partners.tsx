@@ -1,236 +1,215 @@
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Code, GraduationCap, Handshake, Building, Heart, Users } from "lucide-react";
+import { Code, GraduationCap, Handshake, Building, Heart, Users, ShieldCheck, Globe, Zap, ArrowRight, Mail } from "lucide-react";
+import { motion } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
 
 const Partners = () => {
   const opportunities = [
     {
       icon: Code,
-      title: "Developers & Engineers",
-      description: "Help us build the platform that's transforming domestic work in Kenya.",
-      skills: ["React", "Node.js", "Mobile Development", "UI/UX Design"]
+      title: "Tech For Good",
+      description: "Help us build the next generation of domestic staffing technology.",
+      skills: ["React", "Node.js", "AI/ML", "Mobile"],
+      color: "text-blue-600",
+      bg: "bg-blue-50"
     },
     {
       icon: GraduationCap,
-      title: "Trainers & Mentors",
-      description: "Share your expertise to train and certify domestic workers in various skills.",
-      skills: ["Childcare", "Cooking", "Professional Etiquette", "Life Skills"]
+      title: "Skills Trainers",
+      description: "Share your expertise to certify professionals in specialized home care.",
+      skills: ["Childcare", "Culinary", "Etiquette"],
+      color: "text-purple-600",
+      bg: "bg-purple-50"
     },
     {
       icon: Building,
-      title: "NGO & Corporate Partners",
-      description: "Partner with us to expand our reach and impact across Kenya.",
-      skills: ["CSR Programs", "Funding", "Distribution", "Community Outreach"]
+      title: "Corporate ESG",
+      description: "Partner with us to drive social impact within your corporate ecosystem.",
+      skills: ["CSR", "Funding", "Scale"],
+      color: "text-green-600",
+      bg: "bg-green-50"
     },
     {
       icon: Handshake,
-      title: "Investors & Advisors",
-      description: "Join us in scaling a social enterprise that makes a real difference.",
-      skills: ["Strategic Guidance", "Funding", "Network Access", "Business Development"]
+      title: "Strategic Advisory",
+      description: "Guide a high-growth social enterprise toward pan-African expansion.",
+      skills: ["Strategy", "Network", "Growth"],
+      color: "text-orange-600",
+      bg: "bg-orange-50"
     }
   ];
 
-  const benefits = [
-    "Work on a mission-driven project with real social impact",
-    "Flexible remote and part-time opportunities",
-    "Be part of Kenya's growing tech-for-good ecosystem",
-    "Build your portfolio with meaningful work",
-    "Connect with like-minded professionals and social entrepreneurs"
-  ];
-
   return (
-    <div className="min-h-screen">
-      
-      {/* Hero */}
-      <section className="pt-24 pb-16 gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl lg:text-6xl font-bold mb-6">Join the HouseAid Movement</h1>
-          <p className="text-xl opacity-90 max-w-3xl mx-auto">
-            Be part of a mission to transform domestic work in Kenya. 
-            We're looking for passionate individuals and organizations to help us grow.
-          </p>
-        </div>
-      </section>
-
-      {/* Why Join */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Join HouseAid?</h2>
-              <p className="text-lg text-muted-foreground">
-                More than a job or partnership – it's an opportunity to create lasting social impact
-              </p>
-            </div>
-            <Card className="p-8">
-              <div className="flex items-center mb-6">
-                <div className="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center mr-4">
-                  <Heart className="h-8 w-8 text-primary-foreground" />
-                </div>
-                <h3 className="text-2xl font-bold">Make a Real Difference</h3>
-              </div>
-              <p className="text-lg text-muted-foreground mb-6">
-                HouseAid is addressing a critical need in Kenya's informal economy. 
-                By joining us, you'll directly contribute to:
-              </p>
-              <ul className="space-y-3">
-                {benefits.map((benefit, index) => (
-                  <li key={index} className="flex items-start">
-                    <div className="w-2 h-2 rounded-full bg-primary mt-2 mr-3 flex-shrink-0" />
-                    <span className="text-muted-foreground">{benefit}</span>
-                  </li>
-                ))}
-              </ul>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Opportunities */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">How You Can Contribute</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're looking for talented individuals and organizations in various roles
+    <div className="min-h-screen bg-white">
+      {/* Premium Hero */}
+      <section className="relative pt-32 pb-24 overflow-hidden bg-gray-900 text-white">
+        <div className="absolute top-0 left-0 w-full h-full opacity-10 bg-[url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&q=80')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-900" />
+        
+        <div className="container mx-auto px-4 relative z-10 text-center">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            <Badge className="bg-primary/20 text-primary border-none mb-6 px-4 py-1.5 text-sm font-bold uppercase tracking-widest">Global Ecosystem</Badge>
+            <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-tight">
+              Let's Build the <span className="text-primary">Future</span> <br /> 
+              of Work Together.
+            </h1>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-medium">
+              Join Kenya's fastest-growing domestic network as a strategic partner, 
+              investor, or technical collaborator.
             </p>
-          </div>
-          <div className="grid md:grid-cols-2 gap-8">
-            {opportunities.map((opportunity, index) => {
-              const Icon = opportunity.icon;
-              return (
-                <Card key={index} className="p-8 hover:shadow-medium transition-shadow">
-                  <div className="w-16 h-16 gradient-primary rounded-xl flex items-center justify-center mb-4">
-                    <Icon className="h-8 w-8 text-primary-foreground" />
+          </motion.div>
+        </div>
+      </section>
+
+      {/* Why Partner - Impact Grid */}
+      <section className="py-24 bg-gray-50/50">
+        <div className="container mx-auto px-4">
+          <div className="grid lg:grid-cols-2 gap-16 items-center mb-24">
+             <motion.div
+               initial={{ opacity: 0, x: -30 }}
+               whileInView={{ opacity: 1, x: 0 }}
+               viewport={{ once: true }}
+             >
+               <h2 className="text-4xl lg:text-5xl font-black text-gray-900 mb-8 tracking-tight leading-tight">
+                 Scale Your <span className="text-primary">Social Impact</span> <br /> 
+                 With HouseAid.
+               </h2>
+               <div className="space-y-8">
+                  <div className="flex gap-6">
+                     <div className="w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center text-primary flex-shrink-0">
+                        <Globe className="w-7 h-7" />
+                     </div>
+                     <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">Pan-African Vision</h4>
+                        <p className="text-gray-500 font-medium leading-relaxed">
+                          We are building a scalable model starting in Nairobi, designed to professionalize 
+                          the informal economy across the continent.
+                        </p>
+                     </div>
                   </div>
-                  <h3 className="text-2xl font-semibold mb-3">{opportunity.title}</h3>
-                  <p className="text-muted-foreground mb-4">{opportunity.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {opportunity.skills.map((skill, skillIndex) => (
-                      <span 
-                        key={skillIndex}
-                        className="px-3 py-1 bg-muted text-sm rounded-full border border-border"
-                      >
-                        {skill}
-                      </span>
+                  <div className="flex gap-6">
+                     <div className="w-14 h-14 rounded-2xl bg-white shadow-lg flex items-center justify-center text-green-600 flex-shrink-0">
+                        <ShieldCheck className="w-7 h-7" />
+                     </div>
+                     <div>
+                        <h4 className="text-xl font-bold text-gray-900 mb-2">Verified Trust</h4>
+                        <p className="text-gray-500 font-medium leading-relaxed">
+                          Partner with an organization that prioritizes safety and legal protection 
+                          above all else. Our standards are the highest in the market.
+                        </p>
+                     </div>
+                  </div>
+               </div>
+             </motion.div>
+
+             <div className="relative">
+                <Card className="rounded-[3rem] border-none shadow-2xl overflow-hidden relative z-10">
+                   <img src="https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&q=80" className="h-[500px] w-full object-cover" alt="Partnerships" />
+                   <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-transparent to-transparent" />
+                   <div className="absolute bottom-8 left-8 right-8 text-white">
+                      <div className="text-3xl font-black mb-2">2,000+</div>
+                      <p className="font-bold opacity-80 uppercase tracking-widest text-xs">Direct Lives Impacted</p>
+                   </div>
+                </Card>
+                <div className="absolute -top-6 -right-6 w-32 h-32 bg-primary/10 rounded-full blur-2xl" />
+             </div>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+            {opportunities.map((opp, i) => (
+              <motion.div
+                key={i}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+              >
+                <Card className="rounded-[2.5rem] border-none shadow-sm hover:shadow-xl transition-all duration-500 p-8 bg-white group h-full">
+                  <div className={`w-14 h-14 rounded-2xl ${opp.bg} ${opp.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}>
+                    <opp.icon className="w-7 h-7" />
+                  </div>
+                  <h3 className="text-xl font-black text-gray-900 mb-4">{opp.title}</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed mb-6 text-sm">{opp.description}</p>
+                  <div className="flex flex-wrap gap-2 mt-auto">
+                    {opp.skills.map((skill, si) => (
+                      <Badge key={si} className="bg-gray-50 text-gray-400 border-none rounded-lg px-2 py-0.5 text-[10px] font-black uppercase">{skill}</Badge>
                     ))}
                   </div>
                 </Card>
-              );
-            })}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Partnership Types */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Partnership Opportunities</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're open to various types of partnerships
-            </p>
-          </div>
-          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <Card className="p-6 text-center">
-              <div className="w-16 h-16 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Users className="h-8 w-8 text-primary-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Volunteer Programs</h3>
-              <p className="text-muted-foreground">
-                Contribute your time and skills on a flexible basis
-              </p>
-            </Card>
-            <Card className="p-6 text-center">
-              <div className="w-16 h-16 gradient-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Handshake className="h-8 w-8 text-secondary-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Strategic Partnerships</h3>
-              <p className="text-muted-foreground">
-                Long-term collaboration with NGOs and corporations
-              </p>
-            </Card>
-            <Card className="p-6 text-center">
-              <div className="w-16 h-16 bg-success rounded-full flex items-center justify-center mx-auto mb-4">
-                <Building className="h-8 w-8 text-success-foreground" />
-              </div>
-              <h3 className="text-xl font-semibold mb-3">Investment & Advisory</h3>
-              <p className="text-muted-foreground">
-                Help us scale with funding and strategic guidance
-              </p>
-            </Card>
-          </div>
-        </div>
-      </section>
+      {/* Inquiry Form - World Class Design */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 max-w-5xl">
+          <div className="bg-gray-900 rounded-[3rem] p-8 md:p-20 relative overflow-hidden text-white">
+             <div className="absolute top-0 right-0 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
+             
+             <div className="grid lg:grid-cols-2 gap-16 relative z-10">
+                <div>
+                   <h2 className="text-4xl md:text-5xl font-black mb-8 tracking-tight leading-tight text-white">Inquiry <br /> <span className="text-primary">Portal.</span></h2>
+                   <p className="text-lg text-gray-400 font-medium mb-10 leading-relaxed">
+                     Ready to collaborate? Submit your proposal or partnership request and 
+                     our strategic team will get back to you within 48 hours.
+                   </p>
+                   <div className="space-y-6">
+                      <div className="flex items-center gap-4 text-gray-300 font-bold">
+                         <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary"><Mail className="w-5 h-5" /></div>
+                         <span>partnerships@houseaid.com</span>
+                      </div>
+                      <div className="flex items-center gap-4 text-gray-300 font-bold">
+                         <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center text-primary"><Zap className="w-5 h-5" /></div>
+                         <span>Fast-track response for NGO/Govt</span>
+                      </div>
+                   </div>
+                </div>
 
-      {/* Contact Form */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Get in Touch</h2>
-              <p className="text-lg text-muted-foreground">
-                Interested in joining us? Fill out the form below and we'll get back to you within 48 hours.
-              </p>
-            </div>
-            <Card className="p-8">
-              <form className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Your Name</label>
-                    <Input placeholder="John Doe" />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-medium mb-2">Email Address</label>
-                    <Input type="email" placeholder="john@example.com" />
-                  </div>
+                <div className="bg-white rounded-[2rem] p-8 text-gray-900 shadow-2xl">
+                   <form className="space-y-6">
+                      <div className="space-y-2">
+                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Full Name</label>
+                         <Input placeholder="John Doe" className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white" />
+                      </div>
+                      <div className="space-y-2">
+                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Organization</label>
+                         <Input placeholder="NGO, Startup, Corp" className="h-12 rounded-xl border-gray-100 bg-gray-50 focus:bg-white" />
+                      </div>
+                      <div className="space-y-2">
+                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Partnership Type</label>
+                         <select className="w-full h-12 px-4 rounded-xl border-gray-100 bg-gray-50 text-sm font-medium">
+                            <option>Technical Volunteer</option>
+                            <option>NGO Partnership</option>
+                            <option>Investment Inquiry</option>
+                            <option>Other</option>
+                         </select>
+                      </div>
+                      <div className="space-y-2">
+                         <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Message</label>
+                         <Textarea placeholder="Briefly describe your proposal..." className="min-h-[120px] rounded-xl border-gray-100 bg-gray-50 focus:bg-white p-4" />
+                      </div>
+                      <Button className="w-full h-14 rounded-xl text-lg font-black shadow-xl shadow-primary/20">
+                         Submit Proposal <ArrowRight className="ml-2 w-5 h-5" />
+                      </Button>
+                   </form>
                 </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Phone Number</label>
-                  <Input placeholder="+254 700 000 000" />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">I'm interested in</label>
-                  <select className="w-full px-3 py-2 border border-input rounded-md bg-background">
-                    <option>Select an option</option>
-                    <option>Volunteering (Developer/Engineer)</option>
-                    <option>Volunteering (Trainer/Mentor)</option>
-                    <option>NGO Partnership</option>
-                    <option>Corporate Partnership</option>
-                    <option>Investment Opportunity</option>
-                    <option>Advisory Role</option>
-                    <option>Other</option>
-                  </select>
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-2">Tell us about yourself</label>
-                  <Textarea 
-                    placeholder="Share your background, skills, and why you want to join HouseAid..." 
-                    rows={6}
-                  />
-                </div>
-                <Button className="w-full gradient-primary text-primary-foreground" size="lg">
-                  Submit Application
-                </Button>
-              </form>
-            </Card>
+             </div>
           </div>
-        </div>
-      </section>
-
-      {/* CTA */}
-      <section className="py-16 gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Join Us in Creating Change</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Together, we can transform domestic work in Kenya and improve thousands of lives
-          </p>
         </div>
       </section>
     </div>
   );
 };
+
+export default Partners;
 
 export default Partners;

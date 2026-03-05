@@ -1,68 +1,84 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { Search, UserCheck, FileSignature, CreditCard, ArrowRight } from "lucide-react";
 
 const HowItWorks = () => {
   const steps = [
-    { number: "01", title: "Search & Browse", description: "Find verified workers based on your needs and location." },
-    { number: "02", title: "Match & Verify", description: "Review profiles, ratings, and certifications to find the perfect match." },
-    { number: "03", title: "Contract & Hire", description: "Create a digital contract with clear terms and conditions." },
-    { number: "04", title: "Track & Pay", description: "Monitor attendance and make secure payments through the platform." },
+    { 
+      icon: Search,
+      title: "Search & Browse", 
+      description: "Discover thousands of verified domestic professionals in your local area.",
+      color: "bg-blue-600"
+    },
+    { 
+      icon: UserCheck,
+      title: "Match & Verify", 
+      description: "Review detailed profiles, professional ratings, and background checks.",
+      color: "bg-purple-600"
+    },
+    { 
+      icon: FileSignature,
+      title: "Secure Contract", 
+      description: "Set clear terms and sign a digital contract that protects both parties.",
+      color: "bg-orange-600"
+    },
+    { 
+      icon: CreditCard,
+      title: "Track & Pay", 
+      description: "Manage attendance and process secure payments via M-Pesa.",
+      color: "bg-green-600"
+    },
   ];
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-24 bg-gray-50/50">
       <div className="container mx-auto px-4">
-        <motion.div
-          className="text-center mb-16"
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5 }}
-        >
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">How It Works</h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Simple, transparent process from search to hire
+        <div className="text-center max-w-2xl mx-auto mb-20">
+          <h2 className="text-4xl lg:text-5xl font-extrabold mb-6 tracking-tight text-gray-900">
+            How HouseAid Works
+          </h2>
+          <p className="text-xl text-gray-500 font-medium">
+            A simple, secure four-step process designed for the modern Kenyan household.
           </p>
-        </motion.div>
-        <div className="relative">
-          <div className="hidden md:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 -translate-y-1/2"></div>
-          <motion.div
-            className="grid md:grid-cols-4 gap-8 relative"
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={{
-              visible: { transition: { staggerChildren: 0.2 } },
-            }}
-          >
-            {steps.map((step, index) => (
-              <motion.div
-                key={index}
-                className="text-center bg-white p-6 rounded-lg"
-                variants={{
-                  hidden: { opacity: 0, y: 50 },
-                  visible: { opacity: 1, y: 0 },
-                }}
-              >
-                <div className="relative inline-block">
-                  <div className="w-16 h-16 bg-primary text-white rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold">
-                    {step.number}
-                  </div>
-                  {index < steps.length - 1 && (
-                    <div className="hidden md:block absolute top-1/2 left-full w-full h-0.5 bg-gray-200"></div>
-                  )}
-                </div>
-                <h3 className="text-xl font-semibold mb-2">{step.title}</h3>
-                <p className="text-muted-foreground">{step.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
         </div>
-        <div className="text-center mt-12">
-          <Link to="/how-it-works">
-            <Button size="lg" variant="outline">
-              Learn More
+
+        <div className="relative">
+          {/* Connecting Line */}
+          <div className="hidden lg:block absolute top-[60px] left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-12 relative">
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: index * 0.1 }}
+                  className="text-center group"
+                >
+                  <div className="relative inline-block mb-8">
+                    <div className={`w-20 h-20 ${step.color} text-white rounded-3xl flex items-center justify-center mx-auto shadow-2xl shadow-gray-200 transition-transform duration-500 group-hover:scale-110 group-hover:rotate-6`}>
+                      <Icon className="w-10 h-10" />
+                    </div>
+                    <div className="absolute -top-3 -right-3 w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold text-sm text-gray-400 shadow-sm border border-gray-100">
+                      {index + 1}
+                    </div>
+                  </div>
+                  <h3 className="text-2xl font-extrabold mb-4 text-gray-900">{step.title}</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed px-4">{step.description}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="text-center mt-16">
+          <Link to="/join">
+            <Button size="lg" className="h-14 px-10 rounded-2xl text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+              Get Started Now <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </Link>
         </div>
@@ -70,6 +86,8 @@ const HowItWorks = () => {
     </section>
   );
 };
+
+export default HowItWorks;
 
 export default HowItWorks;
 

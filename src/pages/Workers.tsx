@@ -1,275 +1,193 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { GraduationCap, Shield, TrendingUp, CreditCard, FileText, Award, CheckCircle } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { GraduationCap, Shield, TrendingUp, CreditCard, FileText, Award, CheckCircle, ArrowRight, ShieldCheck, Heart } from "lucide-react";
 import heroImage from "@/assets/hero-workers.jpg";
+import { motion } from "framer-motion";
 
 const Workers = () => {
   const benefits = [
     {
       icon: GraduationCap,
-      title: "Professional Training",
-      description: "Free training programs in childcare, cooking, cleaning, and professional etiquette."
+      title: "Skills Academy",
+      description: "Access free, certified training in childcare, culinary arts, and professional etiquette.",
+      color: "text-blue-600",
+      bg: "bg-blue-50"
     },
     {
-      icon: Award,
-      title: "Certification & Verification",
-      description: "Earn recognized certifications that increase your value and job opportunities."
-    },
-    {
-      icon: FileText,
-      title: "Legal Contracts",
-      description: "Work with formal contracts that protect your rights and ensure fair treatment."
+      icon: ShieldCheck,
+      title: "Work with Dignity",
+      description: "We partner only with verified households who respect your professional boundaries.",
+      color: "text-purple-600",
+      bg: "bg-purple-50"
     },
     {
       icon: CreditCard,
-      title: "Guaranteed Payments",
-      description: "Secure, on-time digital payments with complete transaction history."
+      title: "Fair, Fast Pay",
+      description: "Digital salary processing ensures you are paid on time, every time, via M-Pesa.",
+      color: "text-green-600",
+      bg: "bg-green-50"
+    },
+    {
+      icon: FileText,
+      title: "Legal Protection",
+      description: "Transparent digital contracts that protect your rights and outline clear terms.",
+      color: "text-orange-600",
+      bg: "bg-orange-50"
     },
     {
       icon: TrendingUp,
       title: "Career Growth",
-      description: "Build a professional profile, earn ratings, and advance your career."
+      description: "Build a professional history with reviews that help you earn higher wages over time.",
+      color: "text-cyan-600",
+      bg: "bg-cyan-50"
     },
     {
-      icon: Shield,
-      title: "Job Security",
-      description: "Work with verified employers and have support when you need it."
-    }
-  ];
-
-  const steps = [
-    {
-      number: "01",
-      title: "Apply Online",
-      description: "Fill out a simple application form with your details and work experience."
-    },
-    {
-      number: "02",
-      title: "Background Verification",
-      description: "We verify your identity, references, and conduct a background check."
-    },
-    {
-      number: "03",
-      title: "Free Training",
-      description: "Attend our training programs to learn new skills and earn certifications."
-    },
-    {
-      number: "04",
-      title: "Get Matched",
-      description: "We connect you with families looking for workers with your skills."
-    },
-    {
-      number: "05",
-      title: "Start Working",
-      description: "Sign a formal contract and start your new professional career."
-    }
-  ];
-
-  const testimonials = [
-    {
-      name: "Mary Njeri",
-      role: "Childcare Specialist",
-      quote: "HouseAid's training program taught me professional childcare skills. I now earn 50% more and have a formal contract with benefits!"
-    },
-    {
-      name: "Grace Akinyi",
-      role: "Domestic Worker",
-      quote: "Before HouseAid, I struggled with unfair wages and no job security. Now I have a stable income, health insurance, and respect."
-    },
-    {
-      name: "Mercy Wambui",
-      role: "House Manager",
-      quote: "The certification I earned through HouseAid opened doors to better job opportunities. I'm now a professional house manager earning a good salary."
+      icon: Award,
+      title: "Certification",
+      description: "Earn recognized badges that showcase your expertise to premium employers.",
+      color: "text-yellow-600",
+      bg: "bg-yellow-50"
     }
   ];
 
   return (
-    <div className="min-h-screen">
-      
-      {/* Hero Section */}
-      <section className="pt-24 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Build a Professional Career in Domestic Work
+    <div className="min-h-screen bg-white">
+      {/* Premium Hero Section */}
+      <section className="relative pt-32 pb-24 overflow-hidden bg-gray-900 text-white">
+        <div className="absolute top-0 left-0 w-full h-full opacity-20 bg-[url('https://images.unsplash.com/photo-1581578731548-c64695cc6958?auto=format&fit=crop&q=80')] bg-cover bg-center" />
+        <div className="absolute inset-0 bg-gradient-to-r from-gray-900 via-gray-900/80 to-transparent" />
+        
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/20 text-primary text-sm font-bold mb-6">
+                <Award className="w-4 h-4" />
+                <span>Elevate Your Professional Career</span>
+              </div>
+              <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-[1.1]">
+                Dignity, Growth, <br /> 
+                <span className="text-primary">& Better Pay.</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8">
-                Get free training, earn certifications, work with verified employers, 
-                and receive fair wages with formal contracts. Your professional journey starts here.
+              <p className="text-xl text-gray-300 mb-10 leading-relaxed font-medium max-w-xl">
+                Join Kenya's first professional network for domestic specialists. 
+                Get certified, find verified employers, and build the career you deserve.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/login">
-                  <Button size="lg" className="gradient-primary text-primary-foreground w-full sm:w-auto">
-                    Apply as Worker
-                  </Button>
-                </Link>
-                <Link to="/how-it-works">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                    Learn More
-                  </Button>
-                </Link>
+                <Button asChild size="lg" className="h-16 px-10 text-xl rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+                  <Link to="/join">Apply as Professional</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="h-16 px-10 text-xl rounded-2xl border-2 bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all">
+                  <Link to="/how-it-works">Learn the Process</Link>
+                </Button>
               </div>
-            </div>
-            <div className="relative animate-slide-up">
-              <img 
-                src={heroImage} 
-                alt="Workers in training session" 
-                className="rounded-2xl shadow-medium w-full h-auto"
-              />
-            </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1 }}
+              className="relative hidden lg:block"
+            >
+              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white/10">
+                <img src={heroImage} alt="Professional worker" className="w-full h-[600px] object-cover" />
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-16 bg-muted">
+      {/* Benefits Grid */}
+      <section className="py-24 bg-white">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Workers Choose HouseAid</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              We're committed to empowering domestic workers with the tools and support for professional careers
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-4xl lg:text-5xl font-black mb-6 tracking-tight text-gray-900">
+              Your Career, Reimagined.
+            </h2>
+            <p className="text-xl text-gray-500 font-medium">
+              We provide the tools and support you need to succeed as a modern domestic professional.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon;
-              return (
-                <Card key={index} className="p-6 hover:shadow-medium transition-shadow">
-                  <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-primary-foreground" />
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="group p-8 h-full border-none shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 rounded-[2.5rem] bg-gray-50/50 hover:bg-white border border-gray-100/50">
+                  <div className={cn("inline-flex p-4 rounded-2xl mb-6", benefit.bg, benefit.color)}>
+                    <benefit.icon className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-muted-foreground">{benefit.description}</p>
+                  <h3 className="text-2xl font-extrabold mb-4 text-gray-900">{benefit.title}</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">
+                    {benefit.description}
+                  </p>
                 </Card>
-              );
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* Joining Process */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">How to Join HouseAid</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              A simple, step-by-step process to start your professional career
-            </p>
-          </div>
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {steps.map((step, index) => (
-              <div key={index} className="text-center">
-                <div className="w-16 h-16 gradient-primary rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-primary-foreground">
-                  {step.number}
-                </div>
-                <h3 className="text-lg font-semibold mb-2">{step.title}</h3>
-                <p className="text-sm text-muted-foreground">{step.description}</p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Training & Certification */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-3xl lg:text-4xl font-bold mb-6">
-                Free Training & Certification Programs
-              </h2>
-              <p className="text-lg text-muted-foreground mb-6">
-                Our comprehensive training programs prepare you for professional domestic work 
-                and help you earn certifications that employers value.
-              </p>
-              <ul className="space-y-4">
-                <li className="flex items-start">
-                  <CheckCircle className="h-6 w-6 text-primary mr-3 mt-1" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Childcare & Early Education</h4>
-                    <p className="text-sm text-muted-foreground">Learn professional childcare techniques and child development basics</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-6 w-6 text-primary mr-3 mt-1" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Cooking & Nutrition</h4>
-                    <p className="text-sm text-muted-foreground">Master meal planning, food safety, and nutrition for families</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-6 w-6 text-primary mr-3 mt-1" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Professional Housekeeping</h4>
-                    <p className="text-sm text-muted-foreground">Learn efficient cleaning methods and home organization</p>
-                  </div>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-6 w-6 text-primary mr-3 mt-1" />
-                  <div>
-                    <h4 className="font-semibold mb-1">Professional Etiquette & Communication</h4>
-                    <p className="text-sm text-muted-foreground">Develop professional communication and workplace skills</p>
-                  </div>
-                </li>
-              </ul>
-            </div>
-            <Card className="p-8 bg-card">
-              <div className="aspect-square bg-gradient-primary rounded-lg flex items-center justify-center mb-6">
-                <GraduationCap className="h-32 w-32 text-primary-foreground opacity-50" />
-              </div>
-              <div className="text-center">
-                <h3 className="text-2xl font-bold mb-2">Earn Your Certificate</h3>
-                <p className="text-muted-foreground">
-                  Complete training programs and earn recognized certifications that boost your career
-                </p>
-              </div>
-            </Card>
+      {/* Success Stories - Premium Layout */}
+      <section className="py-24 bg-gray-900 text-white overflow-hidden relative">
+        <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="text-center mb-20">
+            <h2 className="text-4xl lg:text-5xl font-black mb-6 tracking-tight">Real Stories, Real Impact.</h2>
+            <p className="text-xl text-gray-400 font-medium">Hear from professionals who have transformed their lives through HouseAid.</p>
           </div>
-        </div>
-      </section>
-
-      {/* Success Stories */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Success Stories</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Real stories from workers who transformed their careers with HouseAid
-            </p>
-          </div>
+          
           <div className="grid md:grid-cols-3 gap-8">
-            {testimonials.map((testimonial, index) => (
-              <Card key={index} className="p-6">
-                <div className="mb-4">
-                  <div className="w-16 h-16 gradient-primary rounded-full mb-4" />
-                  <h4 className="font-semibold text-lg">{testimonial.name}</h4>
-                  <p className="text-sm text-muted-foreground">{testimonial.role}</p>
+            {[
+              { name: "Mary Njeri", role: "Childcare Specialist", text: "HouseAid gave me more than a job; they gave me a profession. I now have health insurance and a stable future for my kids." },
+              { name: "Grace Akinyi", role: "Executive Housekeeper", text: "The certification I earned changed everything. Employers now respect my expertise and pay me what I'm truly worth." },
+              { name: "Mercy Wambui", role: "Professional Chef", text: "I love the M-Pesa payments. No more chasing salaries. It's safe, professional, and I feel valued every single day." }
+            ].map((story, i) => (
+              <Card key={i} className="bg-white/5 border-white/10 rounded-[2.5rem] p-8 text-white">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-full bg-primary/20 flex items-center justify-center text-primary font-bold text-xl">
+                    {story.name.charAt(0)}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-lg">{story.name}</h4>
+                    <p className="text-primary text-sm font-bold uppercase tracking-widest">{story.role}</p>
+                  </div>
                 </div>
-                <p className="text-muted-foreground italic">"{testimonial.quote}"</p>
+                <p className="text-gray-300 text-lg leading-relaxed italic">"{story.text}"</p>
               </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="py-16 gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to Start Your Professional Career?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join hundreds of workers building successful careers in domestic work with fair wages and respect
-          </p>
-          <Link to="/login">
-            <Button size="lg" variant="secondary">
-              Apply Now
-            </Button>
-          </Link>
+      {/* Final CTA */}
+      <section className="py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-primary/20">
+             <div className="relative z-10">
+               <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">Start Your Journey Today.</h2>
+               <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-12 font-medium">
+                 Ready to build a career with respect, safety, and growth? 
+                 Apply to join the HouseAid professional network now.
+               </p>
+               <Button asChild size="lg" variant="secondary" className="h-16 px-12 rounded-2xl text-xl font-black shadow-2xl transition-all hover:scale-105">
+                 <Link to="/join">Create Worker Account <ArrowRight className="ml-3 w-6 h-6" /></Link>
+               </Button>
+             </div>
+          </div>
         </div>
       </section>
     </div>
   );
 };
+
+const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
 
 export default Workers;

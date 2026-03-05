@@ -1,249 +1,209 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { Shield, MapPin, CreditCard, RefreshCw, CheckCircle, Star } from "lucide-react";
+import { Shield, MapPin, CreditCard, RefreshCw, CheckCircle, Star, ArrowRight, ShieldCheck, Zap, Users } from "lucide-react";
 import heroImage from "@/assets/hero-employers.jpg";
+import { motion } from "framer-motion";
 
 const Employers = () => {
   const benefits = [
     {
-      icon: Shield,
-      title: "Verified & Background Checked",
-      description: "Every worker undergoes thorough background checks, skills assessment, and reference verification."
+      icon: ShieldCheck,
+      title: "Vetted & Verified",
+      description: "Rigorous background checks and identity verification for every professional.",
+      color: "text-blue-600",
+      bg: "bg-blue-50"
     },
     {
-      icon: MapPin,
-      title: "GPS Tracking & Attendance",
-      description: "Real-time location tracking and digital attendance logs for transparency and security."
+      icon: Zap,
+      title: "Real-time Tracking",
+      description: "Smart attendance and location updates through our mobile interface.",
+      color: "text-orange-600",
+      bg: "bg-orange-50"
     },
     {
       icon: CreditCard,
-      title: "Secure Digital Payments",
-      description: "Automated salary processing with payment history and digital receipts for your records."
+      title: "Secure Payments",
+      description: "Automated M-Pesa processing with full transaction transparency.",
+      color: "text-green-600",
+      bg: "bg-green-50"
     },
     {
       icon: RefreshCw,
-      title: "Easy Replacement Guarantee",
-      description: "If a worker doesn't work out, we'll help you find a replacement at no extra cost."
+      title: "Replacement Guarantee",
+      description: "Not a perfect match? We provide immediate replacement assistance.",
+      color: "text-purple-600",
+      bg: "bg-purple-50"
     },
     {
-      icon: CheckCircle,
-      title: "Legal Contracts",
-      description: "Professionally drafted contracts that protect both parties and ensure clear expectations."
+      icon: Users,
+      title: "Legal Protection",
+      description: "Comprehensive digital contracts compliant with Kenyan labor laws.",
+      color: "text-cyan-600",
+      bg: "bg-cyan-50"
     },
     {
       icon: Star,
-      title: "Ratings & Reviews",
-      description: "Read reviews from other employers and share your own experiences to help the community."
-    }
-  ];
-
-  const faqs = [
-    {
-      question: "How does the verification process work?",
-      answer: "All workers undergo background checks, skills assessment, reference verification, and training before joining our platform. We verify their identity, check their work history, and ensure they meet our quality standards."
-    },
-    {
-      question: "What if I'm not satisfied with a worker?",
-      answer: "We offer a 30-day replacement guarantee. If you're not satisfied with your worker within the first month, we'll help you find a replacement at no additional cost. We also provide ongoing support to resolve any issues."
-    },
-    {
-      question: "How much does HouseAid cost?",
-      answer: "We charge a small monthly platform fee for access to verified workers, GPS tracking, and payment processing. The worker's salary is negotiated between you and the worker, with guidelines for fair wages provided by our platform."
-    },
-    {
-      question: "How does GPS tracking work?",
-      answer: "Workers use our mobile app to clock in and out. The app records their location when they arrive and leave, providing you with a transparent attendance log. This feature respects privacy while ensuring accountability."
-    },
-    {
-      question: "Are the contracts legally binding?",
-      answer: "Yes, all contracts are drafted by legal professionals and comply with Kenyan employment law. They clearly outline job duties, working hours, salary, benefits, and termination conditions to protect both parties."
+      title: "Performance History",
+      description: "Review detailed feedback and ratings from previous employers.",
+      color: "text-yellow-600",
+      bg: "bg-yellow-50"
     }
   ];
 
   return (
-    <div className="min-h-screen">
-      
-      {/* Hero Section */}
-      <section className="pt-24 pb-16">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="animate-fade-in">
-              <h1 className="text-5xl lg:text-6xl font-bold mb-6 leading-tight">
-                Find Verified, Trustworthy Domestic Workers
+    <div className="min-h-screen bg-white">
+      {/* Modern Hero Section */}
+      <section className="relative pt-32 pb-24 overflow-hidden">
+        <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/5 rounded-full blur-3xl translate-x-1/4 -translate-y-1/4" />
+        <div className="container mx-auto px-4 relative">
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.8 }}
+            >
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-bold mb-6">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Premium Household Staffing</span>
+              </div>
+              <h1 className="text-5xl lg:text-7xl font-black mb-8 tracking-tight leading-[1.1] text-gray-900">
+                Peace of Mind <br /> 
+                <span className="text-primary">At Your Doorstep.</span>
               </h1>
-              <p className="text-xl text-muted-foreground mb-8">
-                Connect with professional domestic workers who have been background-checked, trained, and certified. 
-                GPS tracking, digital contracts, and secure payments for peace of mind.
+              <p className="text-xl text-gray-500 mb-10 leading-relaxed font-medium max-w-xl">
+                Hire professional, background-checked domestic help with confidence. 
+                Manage attendance, contracts, and payments all in one secure place.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
-                <Link to="/login">
-                  <Button size="lg" className="gradient-primary text-primary-foreground w-full sm:w-auto">
-                    Register as Employer
-                  </Button>
-                </Link>
-                <Link to="/how-it-works">
-                  <Button size="lg" variant="outline" className="w-full sm:w-auto">
-                    How It Works
-                  </Button>
-                </Link>
+                <Button asChild size="lg" className="h-14 px-10 text-lg rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-all">
+                  <Link to="/join">Start Hiring Now</Link>
+                </Button>
+                <Button asChild variant="outline" size="lg" className="h-14 px-10 text-lg rounded-2xl border-2 hover:bg-gray-50 transition-all">
+                  <Link to="/how-it-works">See How it Works</Link>
+                </Button>
               </div>
-            </div>
-            <div className="relative animate-slide-up">
-              <img 
-                src={heroImage} 
-                alt="Happy family using HouseAid app" 
-                className="rounded-2xl shadow-medium w-full h-auto"
-              />
-            </div>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 1 }}
+              className="relative"
+            >
+              <div className="relative z-10 rounded-[3rem] overflow-hidden shadow-2xl border-8 border-white">
+                <img src={heroImage} alt="Happy household" className="w-full h-[600px] object-cover" />
+              </div>
+              <div className="absolute -bottom-6 -left-6 z-20 bg-white p-6 rounded-[2rem] shadow-xl border border-gray-100 hidden md:block">
+                 <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-2xl bg-green-50 flex items-center justify-center text-green-600">
+                       <CheckCircle className="w-7 h-7" />
+                    </div>
+                    <div>
+                       <p className="text-xs text-gray-400 font-bold uppercase tracking-widest">Trust Score</p>
+                       <p className="text-lg font-black text-gray-900">100% Verified</p>
+                    </div>
+                 </div>
+              </div>
+            </motion.div>
           </div>
         </div>
       </section>
 
-      {/* Benefits */}
-      <section className="py-16 bg-muted">
+      {/* Benefits Grid */}
+      <section className="py-24 bg-gray-50/50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Why Employers Choose HouseAid</h2>
-            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-              Professional features designed to make hiring and managing domestic workers simple and secure
+          <div className="text-center max-w-3xl mx-auto mb-20">
+            <h2 className="text-4xl lg:text-5xl font-black mb-6 tracking-tight text-gray-900">
+              Built for Modern Households
+            </h2>
+            <p className="text-xl text-gray-500 font-medium">
+              We've redesigned the hiring experience to be safe, transparent, and completely stress-free.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {benefits.map((benefit, index) => {
-              const Icon = benefit.icon;
-              return (
-                <Card key={index} className="p-6 hover:shadow-medium transition-shadow">
-                  <div className="w-12 h-12 gradient-primary rounded-lg flex items-center justify-center mb-4">
-                    <Icon className="h-6 w-6 text-primary-foreground" />
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+              >
+                <Card className="group p-8 h-full border-none shadow-sm hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500 rounded-[2.5rem] bg-white">
+                  <div className={cn("inline-flex p-4 rounded-2xl mb-6", benefit.bg, benefit.color)}>
+                    <benefit.icon className="h-8 w-8" />
                   </div>
-                  <h3 className="text-xl font-semibold mb-2">{benefit.title}</h3>
-                  <p className="text-muted-foreground">{benefit.description}</p>
+                  <h3 className="text-2xl font-extrabold mb-4 text-gray-900">{benefit.title}</h3>
+                  <p className="text-gray-500 font-medium leading-relaxed">
+                    {benefit.description}
+                  </p>
                 </Card>
-              );
-            })}
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Features Demo */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Features You'll Love</h2>
+      {/* World-Class FAQ Section */}
+      <section className="py-24">
+        <div className="container mx-auto px-4 max-w-4xl">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl font-black text-gray-900 mb-4 tracking-tight">Got Questions?</h2>
+            <p className="text-lg text-gray-500 font-medium">Everything you need to know about hiring through HouseAid.</p>
           </div>
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h3 className="text-2xl font-bold mb-4">GPS Tracking & Digital Attendance</h3>
-              <p className="text-muted-foreground mb-6">
-                Know exactly when your worker arrives and leaves. Our GPS tracking system provides 
-                real-time updates and maintains a complete attendance history for your records.
-              </p>
-              <ul className="space-y-3">
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>Real-time arrival and departure notifications</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>Complete attendance history and reports</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>Privacy-respecting location tracking</span>
-                </li>
-              </ul>
-            </div>
-            <Card className="p-8 bg-muted">
-              <div className="aspect-video bg-gradient-primary rounded-lg flex items-center justify-center">
-                <MapPin className="h-24 w-24 text-primary-foreground opacity-50" />
-              </div>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Pricing Preview */}
-      <section className="py-16 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto text-center">
-            <h2 className="text-3xl lg:text-4xl font-bold mb-4">Simple, Transparent Pricing</h2>
-            <p className="text-lg text-muted-foreground mb-8">
-              Pay workers fairly and directly. HouseAid charges a small platform fee for verification, 
-              tracking, and payment processing services.
-            </p>
-            <Card className="p-8">
-              <div className="mb-6">
-                <div className="text-4xl font-bold mb-2">
-                  <span className="gradient-primary bg-clip-text text-transparent">Coming Soon</span>
-                </div>
-                <p className="text-muted-foreground">
-                  Flexible pricing plans for families of all sizes
-                </p>
-              </div>
-              <ul className="space-y-3 text-left max-w-md mx-auto">
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>Verified worker profiles</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>GPS tracking and attendance</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>Secure payment processing</span>
-                </li>
-                <li className="flex items-start">
-                  <CheckCircle className="h-5 w-5 text-primary mr-3 mt-1" />
-                  <span>Legal contracts and support</span>
-                </li>
-              </ul>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQs */}
-      <section className="py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-3xl mx-auto">
-            <div className="text-center mb-12">
-              <h2 className="text-3xl lg:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-            </div>
-            <Accordion type="single" collapsible className="w-full">
-              {faqs.map((faq, index) => (
-                <AccordionItem key={index} value={`item-${index}`}>
-                  <AccordionTrigger className="text-left">
-                    {faq.question}
-                  </AccordionTrigger>
-                  <AccordionContent className="text-muted-foreground">
-                    {faq.answer}
-                  </AccordionContent>
-                </AccordionItem>
-              ))}
-            </Accordion>
-          </div>
+          <Accordion type="single" collapsible className="space-y-4">
+            {[
+              {
+                q: "How do you verify the domestic workers?",
+                a: "Our vetting process includes government-issued ID verification, police clearance certificates (Good Conduct), background checks with previous employers, and in-person skills assessments."
+              },
+              {
+                q: "What happens if a worker leaves or is a poor match?",
+                a: "HouseAid provides a 30-day replacement guarantee. If the placement isn't successful for any reason, our team will match you with a new professional at no additional platform cost."
+              },
+              {
+                q: "Is the payment secure?",
+                a: "Absolutely. All payments are processed through our secure M-Pesa gateway. Funds are only released to the worker once attendance is verified, providing security for both parties."
+              }
+            ].map((faq, i) => (
+              <AccordionItem key={i} value={`item-${i}`} className="border-none bg-gray-50 rounded-[2rem] px-8">
+                <AccordionTrigger className="text-xl font-bold py-6 hover:no-underline text-gray-900">
+                  {faq.q}
+                </AccordionTrigger>
+                <AccordionContent className="text-lg text-gray-500 pb-6 font-medium leading-relaxed">
+                  {faq.a}
+                </AccordionContent>
+              </AccordionItem>
+            ))}
+          </Accordion>
         </div>
       </section>
 
       {/* CTA */}
-      <section className="py-16 gradient-hero text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to Find Your Perfect Worker?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join hundreds of families who trust HouseAid for verified, professional domestic workers
-          </p>
-          <Link to="/login">
-            <Button size="lg" variant="secondary">
-              Register Now
-            </Button>
-          </Link>
+      <section className="py-24">
+        <div className="container mx-auto px-4">
+          <div className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-primary/20">
+             <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10" />
+             <div className="relative z-10">
+               <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight">Ready to hire your next pro?</h2>
+               <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-12 font-medium">
+                 Join thousands of Kenyan homes already experiencing the HouseAid difference. 
+                 Safe, professional, and world-class.
+               </p>
+               <Button asChild size="lg" variant="secondary" className="h-16 px-12 rounded-2xl text-xl font-black shadow-2xl transition-all hover:scale-105">
+                 <Link to="/join">Create Employer Account <ArrowRight className="ml-3 w-6 h-6" /></Link>
+               </Button>
+             </div>
+          </div>
         </div>
       </section>
     </div>
   );
 };
+
+const cn = (...classes: any[]) => classes.filter(Boolean).join(' ');
+
+export default Employers;
 
 export default Employers;
