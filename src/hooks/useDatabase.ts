@@ -30,7 +30,7 @@ export const useMessages = (receiverId?: string) => {
 
       const { data, error } = await supabase
         .from("messages")
-        .insert([{ sender_id: user.id, receiver_id, content }])
+        .insert([{ sender_id: user.id, receiver_id: receiverId, content }])
         .select();
 
       if (error) throw error;
