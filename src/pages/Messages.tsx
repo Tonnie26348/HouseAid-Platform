@@ -11,6 +11,7 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 import Messaging from "@/components/shared/Messaging";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { cn } from "@/lib/utils";
 
 const Messages = () => {
   const { user } = useAuth();
