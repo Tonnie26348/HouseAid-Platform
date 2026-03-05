@@ -5,34 +5,38 @@ import { ArrowRight } from "lucide-react";
 
 const CTA = () => {
   return (
-    <section className="relative py-20 bg-primary text-white overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary to-secondary opacity-50"></div>
-      <div className="container mx-auto px-4 text-center relative">
+    <section className="py-24 bg-white">
+      <div className="container mx-auto px-4">
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, amount: 0.5 }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, scale: 0.95 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="bg-primary rounded-[3rem] p-12 md:p-20 text-center relative overflow-hidden shadow-2xl shadow-primary/20"
         >
-          <h2 className="text-3xl lg:text-4xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-xl mb-8 opacity-90 max-w-2xl mx-auto">
-            Join thousands of families and workers building better relationships through HouseAid
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/employers">
-              <Button size="lg" variant="secondary" className="w-full sm:w-auto">
-                I'm an Employer <ArrowRight className="ml-2 h-5 w-5" />
+          {/* Subtle Texture Layer */}
+          <div 
+            className="absolute top-0 left-0 w-full h-full opacity-10 pointer-events-none"
+            style={{ backgroundImage: "url('https://www.transparenttextures.com/patterns/cubes.png')" }}
+          />
+          
+          <div className="relative z-10">
+            <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tight leading-tight">
+              Ready to experience <br /> 
+              the HouseAid difference?
+            </h2>
+            <p className="text-xl text-primary-foreground/80 max-w-2xl mx-auto mb-12 font-medium">
+              Join thousands of Kenyan homes and professional domestic specialists already building 
+              careers and households on a foundation of trust.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-6 justify-center">
+              <Button asChild size="lg" variant="secondary" className="h-16 px-12 rounded-2xl text-xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95">
+                <Link to="/join">Get Started Now <ArrowRight className="ml-3 w-6 h-6" /></Link>
               </Button>
-            </Link>
-            <Link to="/workers">
-              <Button
-                size="lg"
-                variant="outline"
-                className="w-full sm:w-auto bg-transparent border-white text-white hover:bg-white hover:text-primary"
-              >
-                I'm a Worker
+              <Button asChild variant="outline" size="lg" className="h-16 px-12 rounded-2xl text-xl font-bold bg-white/5 border-white/10 text-white hover:bg-white/10 transition-all">
+                <Link to="/contact">Contact Support</Link>
               </Button>
-            </Link>
+            </div>
           </div>
         </motion.div>
       </div>
@@ -41,4 +45,3 @@ const CTA = () => {
 };
 
 export default CTA;
-
