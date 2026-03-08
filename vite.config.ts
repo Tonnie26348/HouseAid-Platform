@@ -6,8 +6,11 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
-  // Vercel handles the base path differently, so we check for VERCEL env
-  const base = process.env.VERCEL ? '/' : (isProduction ? '/HouseAid-Platform/' : '/');
+  
+  // Robust check for deployment environment
+  // If we are on GitHub Actions, we use the sub-path. Otherwise (Vercel, Local), we use root.
+  const isGitHubPages = process.env.GITHUB_ACTIONS === 'true';
+  const base = isGitHubPages ? '/HouseAid-Platform/' : '/';
 
   return {
     base,
