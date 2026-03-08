@@ -22,7 +22,8 @@ import {
   Filter, 
   MapPin, 
   DollarSign,
-  UserCheck
+  UserCheck,
+  GraduationCap
 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
@@ -48,7 +49,8 @@ const AllWorkers = () => {
       .from("profiles")
       .select(`
         *,
-        verification:verification_requests(status)
+        verification:verification_requests(status),
+        enrollments:enrollments(status, course:courses(title))
       `)
       .eq("role", "worker");
 
@@ -195,6 +197,20 @@ const AllWorkers = () => {
                                 </Badge>
                               ))}
                             </div>
+                            
+                            {/* Certification Badges */}
+                            {worker.enrollments?.some((e: any) => e.status === 'completed') && (
+                              <div className="flex flex-wrap gap-2 mt-2">
+                                {worker.enrollments
+                                  .filter((e: any) => e.status === 'completed')
+                                  .map((e: any, i: number) => (
+                                    <Badge key={i} className="bg-primary/10 text-primary border-none font-black text-[9px] uppercase tracking-widest px-2 py-0.5 flex items-center gap-1">
+                                      <GraduationCap className="w-3 h-3" />
+                                      {e.course?.title} Certified
+                                    </Badge>
+                                  ))}
+                              </div>
+                            )}
                             <div className="flex items-center justify-between text-sm font-bold">
                                <div className="flex items-center gap-1.5 text-gray-500">
                                   <MapPin className="w-4 h-4" />

@@ -1,6 +1,6 @@
 import DashboardLayout from "@/components/shared/DashboardLayout";
 import DashboardCard from "@/components/shared/DashboardCard";
-import { Briefcase, Handshake, DollarSign, ShieldCheck, ShieldAlert, MessageSquare, Star, ArrowRight, Zap, TrendingUp } from "lucide-react";
+import { Briefcase, Handshake, DollarSign, ShieldCheck, ShieldAlert, MessageSquare, Star, ArrowRight, Zap, TrendingUp, GraduationCap, Award } from "lucide-react";
 import { useVerification } from "@/hooks/useDatabase";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
@@ -75,20 +75,46 @@ const WorkerDashboard = () => {
             valueColorClass="text-green-600"
           />
           <DashboardCard
+            title="Certifications"
+            value={1}
+            description="Earned badges"
+            icon={Award}
+            valueColorClass="text-blue-600"
+          />
+          <DashboardCard
             title="New Messages"
             value={3}
             description="Unread notifications"
             icon={MessageSquare}
             valueColorClass="text-orange-600"
           />
-          <DashboardCard
-            title="Total Earnings"
-            value="KSh 12.5k"
-            description="Earnings this month"
-            icon={DollarSign}
-            valueColorClass="text-purple-600"
-          />
         </div>
+
+        {/* Training Academy Banner */}
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+          <Card className="rounded-[3rem] border-none shadow-2xl shadow-primary/5 bg-gradient-to-r from-primary to-primary/80 text-white p-12 overflow-hidden relative">
+            <div className="absolute top-0 right-0 p-8 opacity-20 rotate-12">
+               <GraduationCap className="w-64 h-64" />
+            </div>
+            <div className="relative z-10 max-w-2xl">
+              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/20 text-white text-sm font-bold mb-6 backdrop-blur-md">
+                <Zap className="w-4 h-4 fill-current" />
+                <span>BOOST YOUR EARNINGS</span>
+              </div>
+              <h2 className="text-4xl md:text-5xl font-black mb-6 tracking-tight leading-tight">
+                Unlock Premium Jobs with <br />
+                <span className="text-secondary">Skills Academy.</span>
+              </h2>
+              <p className="text-xl text-primary-foreground/90 font-medium mb-10 leading-relaxed">
+                Complete certified courses in Childcare, Culinary Arts, and Professional Etiquette 
+                to increase your daily rates by up to 40%.
+              </p>
+              <Button asChild size="lg" variant="secondary" className="h-16 px-10 text-xl rounded-2xl font-black shadow-2xl transition-all hover:scale-105 active:scale-95">
+                <Link to="/platform/academy">Enter Academy <ArrowRight className="ml-3 w-6 h-6" /></Link>
+              </Button>
+            </div>
+          </Card>
+        </motion.div>
 
         {/* Detailed Info Grid */}
         <div className="grid lg:grid-cols-3 gap-8">
