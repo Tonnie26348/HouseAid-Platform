@@ -6,7 +6,8 @@ import { componentTagger } from "lovable-tagger";
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production';
-  const base = isProduction ? '/HouseAid-Platform/' : '/';
+  // Vercel handles the base path differently, so we check for VERCEL env
+  const base = process.env.VERCEL ? '/' : (isProduction ? '/HouseAid-Platform/' : '/');
 
   return {
     base,

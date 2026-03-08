@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "dist-gh",
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
