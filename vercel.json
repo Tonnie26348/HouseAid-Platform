@@ -1,7 +1,5 @@
 {
-  "outputDirectory": "dist-gh",
-  "cleanUrls": true,
-  "framework": "vite",
+  "outputDirectory": "dist",
   "rewrites": [
     {
       "source": "/(.*)",
