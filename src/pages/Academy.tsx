@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { supabase } from "@/lib/supabase";
 import { useAuth } from "@/hooks/useAuth";
 import { useToast } from "@/components/ui/use-toast";
@@ -22,6 +23,7 @@ import { Badge } from "@/components/ui/badge";
 const Academy = () => {
   const { user } = useAuth();
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [courses, setCourses] = useState<any[]>([]);
   const [enrollments, setEnrollments] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -54,7 +56,7 @@ const Academy = () => {
       toast({ title: "Error", description: "Failed to enroll in course.", variant: "destructive" });
     } else {
       toast({ title: "Enrolled!", description: "You have successfully started this course." });
-      fetchData();
+      navigate(`/platform/academy/${courseId}`);
     }
   };
 
@@ -156,15 +158,19 @@ const Academy = () => {
                           <Progress value={enrollment.progress} className="h-3 rounded-full bg-gray-100" />
                           
                           {isCompleted ? (
-                             <Button className="w-full h-14 rounded-2xl bg-green-50 text-green-600 hover:bg-green-100 border-none font-black text-lg">
-                               <CheckCircle2 className="mr-2 w-6 h-6" /> View Certificate
+                             <Button asChild className="w-full h-14 rounded-2xl bg-green-50 text-green-600 hover:bg-green-100 border-none font-black text-lg">
+                               <Link to={`/platform/academy/${course.id}`}>
+                                 <CheckCircle2 className="mr-2 w-6 h-6" /> Review Course
+                               </Link>
                              </Button>
                           ) : (
                              <Button 
-                               onClick={() => completeCourse(enrollment.id, course.title)}
+                               asChild
                                className="w-full h-14 rounded-2xl bg-primary shadow-lg shadow-primary/20 font-black text-lg"
                              >
-                               Continue Learning <ChevronRight className="ml-2 w-5 h-5" />
+                               <Link to={`/platform/academy/${course.id}`}>
+                                 Continue Learning <ChevronRight className="ml-2 w-5 h-5" />
+                               </Link>
                              </Button>
                           ) }
                         </div>

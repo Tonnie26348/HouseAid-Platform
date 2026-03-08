@@ -31,6 +31,7 @@ const EmployerProfileView = lazy(() => import("./pages/EmployerProfileView"));
 const WorkerContracts = lazy(() => import("./pages/WorkerContracts"));
 const Messages = lazy(() => import("./pages/Messages"));
 const Academy = lazy(() => import("./pages/Academy"));
+const CoursePlayer = lazy(() => import("./pages/CoursePlayer"));
 
 import MainLayout from "./components/shared/MainLayout";
 import { AuthProvider } from "./hooks/useAuth";
@@ -87,6 +88,7 @@ const App = () => (
               <Route element={<WorkerProtectedRoute />}>
                 <Route path="/platform/my-contracts" element={<WorkerContracts />} />
                 <Route path="/platform/academy" element={<Academy />} />
+                <Route path="/platform/academy/:courseId" element={<CoursePlayer />} />
               </Route>
 
               {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
