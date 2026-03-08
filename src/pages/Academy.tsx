@@ -117,7 +117,7 @@ const Academy = () => {
                 <Card className="group h-full rounded-[2.5rem] border-none shadow-sm hover:shadow-2xl transition-all duration-500 overflow-hidden bg-white">
                   <div className="h-48 relative overflow-hidden">
                     <img 
-                      src={course.thumbnail_url || "https://images.unsplash.com/photo-1516321318423-f06f85e504b3"} 
+                      src={course.thumbnail_url || "https://images.unsplash.com/photo-1531123897727-8f129e1688ce?q=80&w=1974"} 
                       alt={course.title}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                     />
