@@ -13,7 +13,7 @@ import {
   ShieldCheck,
   Briefcase
 } from "lucide-react";
-import { Link, NavLink, useNavigate, Outlet } from "react-router-dom";
+import { Link, NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -21,9 +21,6 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import NotificationBell from "./NotificationBell";
-
-// Wrapper for Avatar components since the import alias might be different or standard
-import * as AvatarPrimitive from "@radix-ui/react-avatar";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -36,9 +33,16 @@ const Sidebar = ({
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await signOut();
-    navigate("/");
+    try {
+      await signOut();
+      navigate("/");
+    } catch (error) {
+      console.error("Logout error:", error);
+    }
   };
+
+  const role = profile?.role?.toLowerCase();
+  const isHousehold = role === "household" || role === "employer";
 
   const employerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
@@ -58,7 +62,7 @@ const Sidebar = ({
     { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
-  const links = profile?.role === "Household" ? employerLinks : workerLinks;
+  const links = isHousehold ? employerLinks : workerLinks;
 
   return (
     <>
@@ -184,15 +188,32 @@ const DashboardHeader = ({
 
 const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const { pathname } = useLocation();
+
+  // Dynamically determine page title if not provided
+  const getPageTitle = () => {
+    if (pageTitle !== "Dashboard") return pageTitle;
+    
+    if (pathname.includes("profile")) return "Account Settings";
+    if (pathname.includes("messages")) return "Messages";
+    if (pathname.includes("all-workers")) return "Browse Workers";
+    if (pathname.includes("workers")) return "My Team";
+    if (pathname.includes("contracts")) return "Contracts";
+    if (pathname.includes("jobs")) return "Job Opportunities";
+    if (pathname.includes("academy")) return "Skills Academy";
+    
+    return "Dashboard";
+  };
 
   return (
     <div className="flex h-screen bg-gray-50/50 font-sans overflow-hidden">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
-        <DashboardHeader setSidebarOpen={setSidebarOpen} pageTitle={pageTitle} />
+        <DashboardHeader setSidebarOpen={setSidebarOpen} pageTitle={getPageTitle()} />
         <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 scrollbar-hide">
           <motion.div
+            key={pathname}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
@@ -207,4 +228,3 @@ const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) =>
 };
 
 export default DashboardLayout;
-

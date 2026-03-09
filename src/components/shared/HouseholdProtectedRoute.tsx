@@ -15,7 +15,10 @@ const HouseholdProtectedRoute = () => {
     );
   }
 
-  if (profile?.role !== "Household") {
+  const role = profile?.role?.toLowerCase();
+  const isHousehold = role === "household" || role === "employer";
+
+  if (!isHousehold) {
     return <Navigate to="/unauthorized" replace />;
   }
 
@@ -23,4 +26,3 @@ const HouseholdProtectedRoute = () => {
 };
 
 export default HouseholdProtectedRoute;
-

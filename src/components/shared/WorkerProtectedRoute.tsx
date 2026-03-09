@@ -15,7 +15,10 @@ const WorkerProtectedRoute = () => {
     );
   }
 
-  if (profile?.role !== "Domestic Worker") {
+  const role = profile?.role?.toLowerCase();
+  const isWorker = role === "domestic worker" || role === "worker";
+
+  if (!isWorker) {
     return <Navigate to="/unauthorized" replace />;
   }
 
@@ -23,4 +26,3 @@ const WorkerProtectedRoute = () => {
 };
 
 export default WorkerProtectedRoute;
-

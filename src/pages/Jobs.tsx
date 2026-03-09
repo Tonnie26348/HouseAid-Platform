@@ -25,29 +25,32 @@ const Jobs = () => {
 
   const fetchJobs = async () => {
     setLoading(true);
-    let query = supabase.from("jobs").select(`
-        *,
-        household:profiles (full_name, avatar_url)
-    `);
+    try {
+      let query = supabase.from("jobs").select(`
+          *,
+          household:profiles (full_name, avatar_url)
+      `);
 
-    if (filters.search) {
-      query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
-    }
-    if (filters.job_type !== "all") {
-      query = query.eq('job_type', filters.job_type);
-    }
-    if (filters.min_salary) {
-      query = query.gte('salary', parseInt(filters.min_salary));
-    }
+      if (filters.search) {
+        query = query.or(`title.ilike.%${filters.search}%,description.ilike.%${filters.search}%,location.ilike.%${filters.search}%`);
+      }
+      if (filters.job_type !== "all") {
+        query = query.eq('job_type', filters.job_type);
+      }
+      if (filters.min_salary) {
+        query = query.gte('salary', parseInt(filters.min_salary));
+      }
 
-    const { data, error } = await query.order('created_at', { ascending: false });
+      const { data, error } = await query.order('created_at', { ascending: false });
 
-    if (error) {
-      toast({ title: "Error", description: error.message, variant: "destructive" });
-    } else {
+      if (error) throw error;
       setJobs(data || []);
+    } catch (error: any) {
+      console.error("Error fetching jobs:", error);
+      toast({ title: "Error", description: error.message, variant: "destructive" });
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -121,7 +124,7 @@ const Jobs = () => {
         <div className="lg:col-span-3">
           {loading ? (
             <div className="grid gap-4">
-              {[1,2,3].map(i => <div key={i} className="h-48 bg-gray-100 animate-pulse rounded-3xl" />)}
+              {[1,2,3].map(i => <div key={i} className="h-48 bg-white animate-pulse rounded-3xl" />)}
             </div>
           ) : jobs.length === 0 ? (
             <div className="text-center py-20 bg-white rounded-3xl border border-dashed border-gray-200">
