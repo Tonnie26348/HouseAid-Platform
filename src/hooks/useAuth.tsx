@@ -47,10 +47,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .eq("id", userId)
         .single();
 
-      if (error) throw error;
+      if (error) {
+        console.error("Profile fetch error:", error);
+        // If we can't get the profile, the session might be corrupt
+        setProfile(null);
+        return;
+      }
       setProfile(data);
     } catch (error) {
-      console.error("Error fetching profile:", error);
+      console.error("Unexpected profile fetch error:", error);
       setProfile(null);
     }
   };
@@ -73,19 +78,39 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
     getInitialSession();
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth event:", event);
       setSession(session);
       setUser(session?.user ?? null);
+      
       if (session?.user) {
-        await fetchProfile(session.user.id);
+        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || !profile) {
+          await fetchProfile(session.user.id);
+        }
       } else {
         setProfile(null);
+        if (event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
+          queryClient.clear();
+        }
       }
       setLoading(false);
     });
 
+    // Periodic session verification to prevent stale states
+    const verifyInterval = setInterval(async () => {
+      const { data: { session: currentSession } } = await supabase.auth.getSession();
+      if (!currentSession && user) {
+        console.warn("Session expired in background");
+        setUser(null);
+        setSession(null);
+        setProfile(null);
+        queryClient.clear();
+      }
+    }, 1000 * 60 * 2); // Check every 2 minutes
+
     return () => {
       subscription.unsubscribe();
+      clearInterval(verifyInterval);
     };
   }, []);
 

@@ -192,6 +192,25 @@ const DashboardHeader = ({
 const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
   const { pathname } = useLocation();
+  const { user, signOut } = useAuth();
+
+  // Background session check
+  React.useEffect(() => {
+    const checkSession = async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session && user) {
+        // Local state thinks we are logged in, but Supabase says no
+        console.warn("Session lost, signing out...");
+        await signOut();
+        window.location.href = "/HouseAid-Platform/login";
+      }
+    };
+
+    // Check once on mount and then every minute
+    checkSession();
+    const interval = setInterval(checkSession, 1000 * 60);
+    return () => clearInterval(interval);
+  }, [user, signOut]);
 
   // Dynamically determine page title if not provided
   const getPageTitle = () => {

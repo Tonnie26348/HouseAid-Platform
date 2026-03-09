@@ -8,29 +8,30 @@ export const useMessages = (receiverId?: string) => {
   const messages = useQuery({
     queryKey: ["messages", receiverId],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("messages")
         .select("*")
-        .or(`sender_id.eq.${user.id},receiver_id.eq.${user.id}`)
+        .or(`sender_id.eq.${session.user.id},receiver_id.eq.${session.user.id}`)
         .order("created_at", { ascending: true });
 
       if (error) throw error;
       return data;
     },
     enabled: !!receiverId,
+    staleTime: 1000 * 60 * 5, // 5 minutes
   });
 
   const sendMessage = useMutation({
     mutationFn: async ({ receiverId, content }: { receiverId: string; content: string }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("messages")
-        .insert([{ sender_id: user.id, receiver_id: receiverId, content }])
+        .insert([{ sender_id: session.user.id, receiver_id: receiverId, content }])
         .select();
 
       if (error) throw error;
@@ -60,16 +61,17 @@ export const useReviews = (revieweeId?: string) => {
       return data;
     },
     enabled: !!revieweeId,
+    staleTime: 1000 * 60 * 5,
   });
 
   const addReview = useMutation({
     mutationFn: async (review: { reviewee_id: string; rating: number; comment: string; contract_id?: number }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("reviews")
-        .insert([{ ...review, reviewer_id: user.id }])
+        .insert([{ ...review, reviewer_id: session.user.id }])
         .select();
 
       if (error) throw error;
@@ -97,6 +99,7 @@ export const usePayments = (contractId?: number) => {
       return data;
     },
     enabled: !!contractId,
+    staleTime: 1000 * 60 * 10, // 10 minutes
   });
 };
 
@@ -107,28 +110,29 @@ export const useVerification = () => {
   const request = useQuery({
     queryKey: ["verification"],
     queryFn: async () => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("verification_requests")
         .select("*")
-        .eq("worker_id", user.id)
+        .eq("worker_id", session.user.id)
         .maybeSingle();
 
       if (error) throw error;
       return data;
     },
+    staleTime: 1000 * 60 * 30, // 30 minutes
   });
 
   const submitRequest = useMutation({
     mutationFn: async (formData: { id_document_url: string; police_clearance_url: string }) => {
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) throw new Error("Not authenticated");
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) throw new Error("Not authenticated");
 
       const { data, error } = await supabase
         .from("verification_requests")
-        .insert([{ ...formData, worker_id: user.id }])
+        .insert([{ ...formData, worker_id: session.user.id }])
         .select();
 
       if (error) throw error;
