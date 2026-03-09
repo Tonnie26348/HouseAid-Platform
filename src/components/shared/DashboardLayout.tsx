@@ -83,7 +83,7 @@ const Sidebar = ({
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto h-screen",
+          "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto h-[100dvh]",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
@@ -208,18 +208,18 @@ const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) =>
   };
 
   return (
-    <div className="flex h-screen bg-gray-50/50 font-sans overflow-hidden">
+    <div className="flex h-[100dvh] bg-gray-50/50 font-sans overflow-hidden">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         <DashboardHeader setSidebarOpen={setSidebarOpen} pageTitle={getPageTitle()} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 scrollbar-hide">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scrollbar-hide">
           <motion.div
             key={pathname}
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
-            className="max-w-7xl mx-auto"
+            className="max-w-7xl mx-auto pb-10"
           >
             <Outlet />
           </motion.div>

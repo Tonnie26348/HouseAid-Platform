@@ -152,6 +152,15 @@ All colors MUST be HSL.
   .text-glow-primary {
     text-shadow: 0 0 20px hsla(var(--primary), 0.4);
   }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 /* World-Class Scrollbar */
