@@ -9,8 +9,8 @@ import { motion } from "framer-motion";
 
 const EmployerDashboard = () => {
   return (
-    <div className="space-y-6 md:space-y-8">
-
+    <DashboardLayout pageTitle="Employer Dashboard">
+      <div className="space-y-6 md:space-y-8">
         {/* Header Action */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
            <div>
@@ -134,9 +134,8 @@ const EmployerDashboard = () => {
            </div>
         </div>
       </div>
+    </DashboardLayout>
   );
 };
 
 export default EmployerDashboard;
-
-

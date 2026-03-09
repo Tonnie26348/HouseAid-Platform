@@ -36,9 +36,12 @@ const Sidebar = ({
   const handleLogout = async () => {
     try {
       await signOut();
-      navigate("/");
+      // Use window.location for a hard refresh to clear all possible memory states
+      window.location.href = "/HouseAid-Platform/";
     } catch (error) {
       console.error("Logout error:", error);
+      // Fallback
+      window.location.href = "/HouseAid-Platform/";
     }
   };
 

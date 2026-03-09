@@ -67,21 +67,21 @@ const Messaging: React.FC<MessagingProps> = ({ receiverId, receiverName }) => {
         </div>
       </ScrollArea>
       
-      <div className="p-4 md:p-6 border-t border-gray-50 bg-white">
-        <form onSubmit={handleSend} className="flex gap-2 md:gap-3 items-center">
+      <div className="p-3 md:p-6 border-t border-gray-50 bg-white">
+        <form onSubmit={handleSend} className="flex gap-2 items-center">
           <Input
             value={newMessage}
             onChange={(e) => setNewMessage(e.target.value)}
             placeholder="Write a message..."
-            className="h-12 md:h-14 rounded-xl md:rounded-2xl border-gray-200 bg-gray-50 focus:bg-white transition-all text-sm md:text-base"
+            className="flex-1 h-11 md:h-14 rounded-xl md:rounded-2xl border-gray-200 bg-gray-50 focus:bg-white transition-all text-sm md:text-base px-4"
           />
           <Button 
             type="submit" 
             disabled={sendMessage.isPending || !newMessage.trim()}
-            className="h-12 w-12 md:h-14 md:px-8 rounded-xl md:rounded-2xl font-black shadow-lg shadow-primary/20 flex-shrink-0"
+            className="h-11 md:h-14 px-4 md:px-8 rounded-xl md:rounded-2xl font-black shadow-lg shadow-primary/20 flex-shrink-0 min-w-[60px]"
           >
-            <span className="hidden md:inline">Send Message</span>
-            <span className="md:hidden">Send</span>
+            <span className="hidden sm:inline">Send Message</span>
+            <span className="sm:hidden text-xs">Send</span>
           </Button>
         </form>
       </div>

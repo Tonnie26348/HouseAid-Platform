@@ -19,7 +19,8 @@ const WorkerDashboard = () => {
   const status = getVerificationStatus();
 
   return (
-    <div className="space-y-6 md:space-y-8">
+    <DashboardLayout pageTitle="Worker Dashboard">
+      <div className="space-y-6 md:space-y-8">
 
         {/* Welcome Section */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
@@ -197,8 +198,8 @@ const WorkerDashboard = () => {
            </div>
         </div>
       </div>
+    </DashboardLayout>
   );
 };
 
 export default WorkerDashboard;
-
