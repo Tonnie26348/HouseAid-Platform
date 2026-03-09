@@ -7,9 +7,6 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription
 } from "@/components/ui/card";
 import {
   Form,
@@ -21,11 +18,10 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/components/ui/use-toast";
-import DashboardLayout from "@/components/shared/DashboardLayout";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useNavigate, Link } from "react-router-dom";
-import { Briefcase, MapPin, DollarSign, Clock, ArrowLeft, Send } from "lucide-react";
+import { Briefcase, MapPin, DollarSign, ArrowLeft, Send } from "lucide-react";
 import { motion } from "framer-motion";
 
 const jobSchema = z.object({
@@ -69,137 +65,134 @@ const CreateJob = () => {
   };
 
   return (
-    <DashboardLayout pageTitle="Post an Opening">
-      <div className="max-w-4xl mx-auto pb-20">
-        <Link to="/platform" className="inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium mb-8">
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back to Dashboard
-        </Link>
+    <div className="max-w-4xl mx-auto pb-20">
+      <Link to="/platform" className="inline-flex items-center text-gray-500 hover:text-primary transition-colors font-medium mb-8">
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back to Dashboard
+      </Link>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-        >
-          <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
-            <div className="bg-primary/5 p-8 md:p-12 border-b border-primary/10">
-               <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-3">
-                 <Briefcase className="text-primary w-8 h-8" />
-                 Job Information
-               </h2>
-               <p className="text-gray-500 font-medium">Describe what you're looking for in a professional.</p>
-            </div>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+      >
+        <Card className="rounded-[2.5rem] border-none shadow-sm overflow-hidden bg-white">
+          <div className="bg-primary/5 p-8 md:p-12 border-b border-primary/10">
+             <h2 className="text-3xl font-black text-gray-900 tracking-tight mb-2 flex items-center gap-3">
+               <Briefcase className="text-primary w-8 h-8" />
+               Job Information
+             </h2>
+             <p className="text-gray-500 font-medium">Describe what you're looking for in a professional.</p>
+          </div>
 
-            <CardContent className="p-8 md:p-12">
-              <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <FormField
-                      control={form.control}
-                      name="title"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold text-gray-700">Position Title</FormLabel>
-                          <FormControl>
-                            <Input placeholder="e.g. Executive Chef, Senior Nanny" className="h-12 rounded-xl border-gray-200" {...field} />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="job_type"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold text-gray-700">Contract Type</FormLabel>
-                          <Select onValueChange={field.onChange} defaultValue={field.value}>
-                              <FormControl>
-                                  <SelectTrigger className="h-12 rounded-xl border-gray-200">
-                                      <SelectValue placeholder="Select type" />
-                                  </SelectTrigger>
-                              </FormControl>
-                              <SelectContent>
-                                  <SelectItem value="full-time">Full-time</SelectItem>
-                                  <SelectItem value="part-time">Part-time</SelectItem>
-                                  <SelectItem value="one-time">One-time (Gig)</SelectItem>
-                              </SelectContent>
-                          </Select>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <FormField
-                      control={form.control}
-                      name="location"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold text-gray-700">Work Location</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                              <Input placeholder="e.g. Kilimani, Nairobi" className="pl-10 h-12 rounded-xl border-gray-200" {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="salary"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel className="font-bold text-gray-700">Monthly Salary (KSH)</FormLabel>
-                          <FormControl>
-                            <div className="relative">
-                              <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                              <Input type="number" className="pl-10 h-12 rounded-xl border-gray-200" {...field} />
-                            </div>
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </div>
-
+          <CardContent className="p-8 md:p-12">
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                <div className="grid md:grid-cols-2 gap-8">
                   <FormField
                     control={form.control}
-                    name="description"
+                    name="title"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel className="font-bold text-gray-700">Detailed Description</FormLabel>
+                        <FormLabel className="font-bold text-gray-700">Position Title</FormLabel>
                         <FormControl>
-                          <Textarea 
-                            placeholder="Provide a clear description of duties, requirements, and household expectations..." 
-                            className="min-h-[180px] rounded-xl border-gray-200 p-4" 
-                            {...field} 
-                          />
+                          <Input placeholder="e.g. Executive Chef, Senior Nanny" className="h-12 rounded-xl border-gray-200" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+                  <FormField
+                    control={form.control}
+                    name="job_type"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold text-gray-700">Contract Type</FormLabel>
+                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                                <SelectTrigger className="h-12 rounded-xl border-gray-200">
+                                    <SelectValue placeholder="Select type" />
+                                </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                                <SelectItem value="full-time">Full-time</SelectItem>
+                                <SelectItem value="part-time">Part-time</SelectItem>
+                                <SelectItem value="one-time">One-time (Gig)</SelectItem>
+                            </SelectContent>
+                        </Select>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
 
-                  <div className="pt-4">
-                    <Button type="submit" className="w-full h-14 rounded-xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.01] transition-all">
-                      <Send className="w-5 h-5 mr-2" /> Post Listing
-                    </Button>
-                    <p className="text-center text-xs text-gray-400 mt-4 font-medium uppercase tracking-widest">
-                      Your listing will be visible to thousands of verified professionals.
-                    </p>
-                  </div>
-                </form>
-              </Form>
-            </CardContent>
-          </Card>
-        </motion.div>
-      </div>
-    </DashboardLayout>
+                <div className="grid md:grid-cols-2 gap-8">
+                  <FormField
+                    control={form.control}
+                    name="location"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold text-gray-700">Work Location</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Input placeholder="e.g. Kilimani, Nairobi" className="pl-10 h-12 rounded-xl border-gray-200" {...field} />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={form.control}
+                    name="salary"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel className="font-bold text-gray-700">Monthly Salary (KSH)</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <DollarSign className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                            <Input type="number" className="pl-10 h-12 rounded-xl border-gray-200" {...field} />
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
+                <FormField
+                  control={form.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel className="font-bold text-gray-700">Detailed Description</FormLabel>
+                      <FormControl>
+                        <Textarea 
+                          placeholder="Provide a clear description of duties, requirements, and household expectations..." 
+                          className="min-h-[180px] rounded-xl border-gray-200 p-4" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <div className="pt-4">
+                  <Button type="submit" className="w-full h-14 rounded-xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.01] transition-all">
+                    <Send className="w-5 h-5 mr-2" /> Post Listing
+                  </Button>
+                  <p className="text-center text-xs text-gray-400 mt-4 font-medium uppercase tracking-widest">
+                    Your listing will be visible to thousands of verified professionals.
+                  </p>
+                </div>
+              </form>
+            </Form>
+          </CardContent>
+        </Card>
+      </motion.div>
+    </div>
   );
 };
 
 export default CreateJob;
-

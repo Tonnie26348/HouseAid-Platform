@@ -57,6 +57,8 @@ const Join = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const dbRole = values.role === "employer" ? "Household" : "Domestic Worker";
+    
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,
@@ -64,7 +66,7 @@ const Join = () => {
         emailRedirectTo: "https://tonnie26348.github.io/HouseAid-Platform/",
         data: {
           full_name: values.fullName,
-          role: values.role,
+          role: dbRole,
         },
       },
     });
@@ -79,6 +81,19 @@ const Join = () => {
     }
 
     if (signUpData.user) {
+        // Manually create profile in case trigger is not set up
+        const { error: profileError } = await supabase
+          .from("profiles")
+          .insert({
+            id: signUpData.user.id,
+            full_name: values.fullName,
+            role: dbRole,
+          });
+
+        if (profileError && !profileError.message.includes('unique constraint')) {
+          console.error("Error creating profile:", profileError);
+        }
+
         setRegisteredEmail(values.email);
         setIsSubmitted(true);
         toast({
@@ -87,6 +102,7 @@ const Join = () => {
         });
     }
   };
+
 
   if (isSubmitted) {
     return (

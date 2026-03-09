@@ -13,15 +13,17 @@ import {
   ShieldCheck,
   Briefcase
 } from "lucide-react";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink, useNavigate, Outlet } from "react-router-dom";
 import { Logo } from "./Logo";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { supabase } from "@/lib/supabase";
 import { motion, AnimatePresence } from "framer-motion";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { cn } from "@/lib/utils";
 import NotificationBell from "./NotificationBell";
+
+// Wrapper for Avatar components since the import alias might be different or standard
+import * as AvatarPrimitive from "@radix-ui/react-avatar";
 
 const Sidebar = ({
   isSidebarOpen,
@@ -30,11 +32,11 @@ const Sidebar = ({
   isSidebarOpen: boolean;
   setSidebarOpen: (isOpen: boolean) => void;
 }) => {
-  const { user } = useAuth();
+  const { profile, signOut } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    await supabase.auth.signOut();
+    await signOut();
     navigate("/");
   };
 
@@ -56,7 +58,7 @@ const Sidebar = ({
     { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
-  const links = user?.user_metadata.role === "employer" ? employerLinks : workerLinks;
+  const links = profile?.role === "Household" ? employerLinks : workerLinks;
 
   return (
     <>
@@ -75,11 +77,11 @@ const Sidebar = ({
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto",
+          "fixed inset-y-0 left-0 z-50 w-72 bg-white border-r border-gray-100 flex flex-col transition-transform duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-auto h-screen",
           isSidebarOpen ? "translate-x-0" : "-translate-x-full"
         )}
       >
-        <div className="h-20 flex items-center px-8 border-b border-gray-50">
+        <div className="h-20 flex items-center px-8 border-b border-gray-50 flex-shrink-0">
           <Link to="/" className="flex items-center space-x-3 group">
             <div className="p-1.5 bg-primary/10 rounded-xl group-hover:scale-110 transition-transform">
               <Logo />
@@ -93,7 +95,7 @@ const Sidebar = ({
             <NavLink
               key={link.to}
               to={link.to}
-              end
+              end={link.to === "/platform"}
               onClick={() => setSidebarOpen(false)}
               className={({ isActive }) =>
                 cn(
@@ -110,7 +112,7 @@ const Sidebar = ({
           ))}
         </nav>
 
-        <div className="p-6 border-t border-gray-50">
+        <div className="p-6 border-t border-gray-50 flex-shrink-0">
           <Button
             variant="ghost"
             className="w-full justify-start text-gray-500 font-bold rounded-2xl hover:bg-red-50 hover:text-red-600 transition-colors"
@@ -132,25 +134,10 @@ const DashboardHeader = ({
   setSidebarOpen: (isOpen: boolean) => void;
   pageTitle: string;
 }) => {
-  const { user } = useAuth();
-  const [profile, setProfile] = React.useState<any>(null);
-
-  React.useEffect(() => {
-    const fetchProfile = async () => {
-      if (user) {
-        const { data } = await supabase
-          .from("profiles")
-          .select("avatar_url, full_name, role")
-          .eq("id", user.id)
-          .single();
-        if (data) setProfile(data);
-      }
-    };
-    fetchProfile();
-  }, [user]);
+  const { profile } = useAuth();
 
   return (
-    <header className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between border-b border-gray-100">
+    <header className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between border-b border-gray-100 flex-shrink-0">
       <div className="flex items-center gap-4">
         <Button
           variant="ghost"
@@ -160,13 +147,13 @@ const DashboardHeader = ({
         >
           <Menu className="w-6 h-6 text-gray-600" />
         </Button>
-        <h1 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight">{pageTitle}</h1>
+        <h1 className="text-xl md:text-2xl font-black text-gray-900 tracking-tight line-clamp-1">{pageTitle}</h1>
       </div>
 
       <div className="flex items-center gap-3 md:gap-6">
-        <div className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-600">
+        <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full bg-green-50 text-green-600">
            <ShieldCheck className="w-4 h-4" />
-           <span className="text-xs font-bold uppercase tracking-wider">Secure Session</span>
+           <span className="text-[10px] font-bold uppercase tracking-wider">Secure</span>
         </div>
         
         <NotificationBell />
@@ -180,34 +167,38 @@ const DashboardHeader = ({
               {profile?.role || 'User'}
             </div>
           </div>
-          <Avatar className="h-10 w-10 border-2 border-primary/10 shadow-sm">
-            <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="bg-primary/5 text-primary font-bold">
-              {profile?.full_name?.charAt(0)}
-            </AvatarFallback>
-          </Avatar>
+          <div className="h-10 w-10 relative">
+             {profile?.avatar_url ? (
+               <img src={profile.avatar_url} alt={profile.full_name || ""} className="h-10 w-10 rounded-full object-cover border-2 border-primary/10" />
+             ) : (
+               <div className="h-10 w-10 rounded-full bg-primary/5 text-primary font-bold flex items-center justify-center border-2 border-primary/10">
+                 {profile?.full_name?.charAt(0)}
+               </div>
+             )}
+          </div>
         </div>
       </div>
     </header>
   );
 };
 
-const DashboardLayout = ({ children, pageTitle = "Dashboard" }: { children: React.ReactNode, pageTitle?: string }) => {
+const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
 
   return (
-    <div className="flex h-screen bg-gray-50/50 font-sans">
+    <div className="flex h-screen bg-gray-50/50 font-sans overflow-hidden">
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       
-      <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
+      <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         <DashboardHeader setSidebarOpen={setSidebarOpen} pageTitle={pageTitle} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10">
+        <main className="flex-1 overflow-y-auto p-4 md:p-8 lg:p-10 scrollbar-hide">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.4 }}
+            className="max-w-7xl mx-auto"
           >
-            {children}
+            <Outlet />
           </motion.div>
         </main>
       </div>
@@ -216,3 +207,4 @@ const DashboardLayout = ({ children, pageTitle = "Dashboard" }: { children: Reac
 };
 
 export default DashboardLayout;
+

@@ -1,37 +1,26 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
-import DashboardLayout from "./DashboardLayout"; // Assuming this is for unauthorized layout
 
 const HouseholdProtectedRoute = () => {
-  const { user, loading } = useAuth();
+  const { profile, loading } = useAuth();
 
   if (loading) {
-    return <div>Loading...</div>;
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace />;
-  }
-
-  const userRole = user.user_metadata.role;
-
-  if (userRole !== "employer") { // Assuming 'employer' role for household
     return (
-      <DashboardLayout>
-        <div className="flex flex-col items-center justify-center h-full">
-          <h1 className="text-4xl font-bold text-red-600 mb-4">Unauthorized Access</h1>
-          <p className="text-lg text-gray-700 mb-8">
-            You do not have permission to view this page.
-          </p>
-          {/* <Button asChild>
-            <Link to="/platform">Go to Dashboard</Link>
-          </Button> */}
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
+        <div className="flex flex-col items-center gap-4">
+          <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+          <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Verifying Role</p>
         </div>
-      </DashboardLayout>
+      </div>
     );
+  }
+
+  if (profile?.role !== "Household") {
+    return <Navigate to="/unauthorized" replace />;
   }
 
   return <Outlet />;
 };
 
 export default HouseholdProtectedRoute;
+

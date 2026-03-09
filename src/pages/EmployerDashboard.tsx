@@ -9,8 +9,8 @@ import { motion } from "framer-motion";
 
 const EmployerDashboard = () => {
   return (
-    <DashboardLayout pageTitle="Management Hub">
-      <div className="max-w-7xl mx-auto space-y-8">
+    <div className="max-w-7xl mx-auto space-y-8">
+
         {/* Header Action */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
            <div>
@@ -134,9 +134,9 @@ const EmployerDashboard = () => {
            </div>
         </div>
       </div>
-    </DashboardLayout>
   );
 };
 
 export default EmployerDashboard;
+
 

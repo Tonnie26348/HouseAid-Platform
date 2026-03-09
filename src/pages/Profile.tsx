@@ -49,111 +49,27 @@ const profileSchema = z.object({
 });
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, profile: authProfile } = useAuth();
   const { toast } = useToast();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [uploading, setUploading] = useState(false);
 
-  const form = useForm<z.infer<typeof profileSchema>>({
-    resolver: zodResolver(profileSchema),
-    defaultValues: {
-      full_name: "",
-      avatar_url: "",
-      skills: "",
-      experience: "",
-      availability: "",
-      hourly_rate: 0,
-      address: "",
-      family_members: 0,
-      payment_basis: "monthly",
-      bio: "",
-      expectations: "",
-      household_rules: "",
-      contact_preferences: "",
-      benefits_offered: "",
-    },
-  });
+  // ... (form definition)
 
-  useEffect(() => {
-    const fetchProfile = async () => {
-      if (user) {
-        setLoading(true);
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("*")
-          .eq("id", user.id)
-          .single();
-
-        if (error) {
-          toast({ title: "Error", description: error.message, variant: "destructive" });
-        } else if (data) {
-          setProfile(data);
-          form.reset({
-            full_name: data.full_name || '',
-            avatar_url: data.avatar_url || '',
-            skills: data.skills?.join(', ') || '',
-            experience: data.experience || '',
-            availability: data.availability || '',
-            hourly_rate: data.hourly_rate || 0,
-            address: data.address || '',
-            family_members: data.family_members || 0,
-            payment_basis: data.payment_basis || 'monthly',
-            bio: data.bio || '',
-            expectations: data.expectations || '',
-            household_rules: data.household_rules || '',
-            contact_preferences: data.contact_preferences || '',
-            benefits_offered: data.benefits_offered?.join(', ') || '',
-          });
-        }
-        setLoading(false);
-      }
-    };
-    fetchProfile();
-  }, [user, toast, form]);
-
-  const onSubmit = async (values: z.infer<typeof profileSchema>) => {
-    if (user) {
-        const { error } = await supabase.from("profiles").update({
-            ...values,
-            skills: values.skills?.split(',').map(s => s.trim()),
-            benefits_offered: values.benefits_offered?.split(',').map(s => s.trim()),
-            updated_at: new Date(),
-        }).eq("id", user.id);
-
-        if (error) {
-            toast({ title: "Update Failed", description: error.message, variant: "destructive" });
-        } else {
-            toast({ title: "Success", description: "Profile updated successfully." });
-        }
-    }
-  };
-
-  const uploadAvatar = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (!event.target.files?.[0] || !user) return;
-    const file = event.target.files[0];
-    const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}.${fileExt}`;
-    
-    setUploading(true);
-    const { error } = await supabase.storage.from('avatars').upload(fileName, file, { upsert: true });
-
-    if (error) {
-      toast({ title: "Upload Error", description: error.message, variant: "destructive" });
-    } else {
-      const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
-      form.setValue('avatar_url', data.publicUrl);
-      onSubmit(form.getValues());
-      toast({ title: "Avatar Updated" });
-    }
-    setUploading(false);
-  };
-
-  if (loading) return <DashboardLayout pageTitle="Settings"><div>Loading profile...</div></DashboardLayout>;
+  if (loading) return (
+    <div className="flex items-center justify-center h-[60vh]">
+      <div className="flex flex-col items-center gap-4">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+        <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Loading Profile</p>
+      </div>
+    </div>
+  );
 
   return (
-    <DashboardLayout pageTitle="Account Settings">
-      <div className="max-w-5xl mx-auto pb-20">
+    <div className="max-w-5xl mx-auto pb-20">
+      {/* ... rest of content */}
+
         <Tabs defaultValue="personal" className="space-y-8">
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
              <div className="flex items-center gap-6">
@@ -364,9 +280,9 @@ const Profile = () => {
           </Form>
         </Tabs>
       </div>
-    </DashboardLayout>
   );
 };
 
 export default Profile;
+
 

@@ -48,8 +48,16 @@ const App = () => (
       <Sonner />
       <BrowserRouter basename="/HouseAid-Platform">
         <AuthProvider>
-          <Suspense fallback={<div>Loading...</div>}>
+          <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-gray-50 font-sans">
+              <div className="flex flex-col items-center gap-4">
+                <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+                <p className="text-gray-400 font-bold text-xs uppercase tracking-widest">Loading HouseAid</p>
+              </div>
+            </div>
+          }>
             <Routes>
+              {/* Public Website Routes */}
               <Route element={<MainLayout />}>
                 <Route path="/" element={<Home />} />
                 <Route path="/employers" element={<Employers />} />
@@ -60,38 +68,46 @@ const App = () => (
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/partners" element={<Partners />} />
               </Route>
+
+              {/* Authentication Routes */}
               <Route path="/join" element={<Join />} />
               <Route path="/login" element={<Login />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/update-password" element={<UpdatePassword />} />
               <Route path="/unauthorized" element={<Unauthorized />} />
 
-              {/* Generic Protected Routes (accessible to any authenticated user) */}
-              <Route element={<ProtectedRoute />}>
-                <Route path="/platform" element={<Platform />} />
-                <Route path="/platform/profile" element={<Profile />} />
-                <Route path="/platform/messages" element={<Messages />} />
-                <Route path="/platform/jobs/new" element={<CreateJob />} />
-                <Route path="/platform/jobs" element={<Jobs />} />
-                <Route path="/platform/jobs/:id" element={<JobDetail />} />
-                <Route path="/platform/employer/:id" element={<EmployerProfileView />} />
+              {/* Protected Platform Routes (Dashboard Shell) */}
+              <Route path="/platform" element={<ProtectedRoute />}>
+                <Route element={<DashboardLayout />}>
+                  {/* Dynamic Dashboard Home */}
+                  <Route index element={<Platform />} />
+                  
+                  {/* Shared Dashboard Features */}
+                  <Route path="profile" element={<Profile />} />
+                  <Route path="messages" element={<Messages />} />
+                  <Route path="jobs" element={<Jobs />} />
+                  <Route path="jobs/:id" element={<JobDetail />} />
+                  
+                  {/* Household Specific Routes */}
+                  <Route element={<HouseholdProtectedRoute />}>
+                    <Route path="jobs/new" element={<CreateJob />} />
+                    <Route path="workers" element={<MyWorkers />} />
+                    <Route path="all-workers" element={<AllWorkers />} />
+                    <Route path="contracts" element={<Contracts />} />
+                  </Route>
+
+                  {/* Worker Specific Routes */}
+                  <Route element={<WorkerProtectedRoute />}>
+                    <Route path="my-contracts" element={<WorkerContracts />} />
+                    <Route path="academy" element={<Academy />} />
+                    <Route path="academy/:courseId" element={<CoursePlayer />} />
+                  </Route>
+
+                  <Route path="employer/:id" element={<EmployerProfileView />} />
+                </Route>
               </Route>
 
-              {/* Household Protected Routes */}
-              <Route element={<HouseholdProtectedRoute />}>
-                <Route path="/platform/workers" element={<MyWorkers />} />
-                <Route path="/platform/contracts" element={<Contracts />} />
-                <Route path="/platform/all-workers" element={<AllWorkers />} />
-              </Route>
-
-              {/* Worker Protected Routes */}
-              <Route element={<WorkerProtectedRoute />}>
-                <Route path="/platform/my-contracts" element={<WorkerContracts />} />
-                <Route path="/platform/academy" element={<Academy />} />
-                <Route path="/platform/academy/:courseId" element={<CoursePlayer />} />
-              </Route>
-
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+              {/* Catch-all */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
@@ -100,5 +116,6 @@ const App = () => (
     </TooltipProvider>
   </QueryClientProvider>
 );
+
 
 export default App;

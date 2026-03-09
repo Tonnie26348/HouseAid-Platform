@@ -4,7 +4,7 @@ import WorkerDashboard from "./WorkerDashboard";
 import { motion } from "framer-motion";
 
 const Platform = () => {
-  const { user, loading } = useAuth();
+  const { profile, loading } = useAuth();
 
   if (loading) {
     return (
@@ -23,7 +23,7 @@ const Platform = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gray-50"
     >
-      {user?.user_metadata.role === "employer" ? (
+      {profile?.role === "Household" ? (
         <EmployerDashboard />
       ) : (
         <WorkerDashboard />
@@ -33,4 +33,5 @@ const Platform = () => {
 };
 
 export default Platform;
+
 
