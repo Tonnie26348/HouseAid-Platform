@@ -51,7 +51,6 @@ const Sidebar = ({
     { to: "/platform/workers", icon: Users, label: "My Workers" },
     { to: "/platform/all-workers", icon: Briefcase, label: "Browse Workers" },
     { to: "/platform/contracts", icon: FileText, label: "Contracts" },
-    { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
   const workerLinks = [
@@ -61,7 +60,6 @@ const Sidebar = ({
     { to: "/platform/jobs", icon: Briefcase, label: "Available Jobs" },
     { to: "/platform/my-contracts", icon: FileText, label: "My Contracts" },
     { to: "/platform/academy", icon: GraduationCap, label: "Skills Academy" },
-    { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
   const links = isHousehold ? employerLinks : workerLinks;
