@@ -15,9 +15,12 @@ const EmployerDashboard = () => {
            <h2 className="text-2xl md:text-3xl font-black text-gray-900 tracking-tight">Management Overview</h2>
            <p className="text-gray-500 font-medium mt-1 text-sm md:text-base">Easily manage your household recruitment and payroll.</p>
          </div>
-         <Button asChild size="lg" className="rounded-xl h-12 md:h-14 px-6 md:px-8 font-black shadow-lg shadow-primary/20 w-full md:w-auto">
-           <Link to="/platform/jobs/new"><Plus className="w-5 h-5 mr-2" /> Post New Opening</Link>
-         </Button>      </div>
+         <Link 
+           to="/platform/jobs/new" 
+           className="inline-flex items-center justify-center rounded-xl h-12 md:h-14 px-6 md:px-8 font-black shadow-lg shadow-primary/20 bg-primary text-white hover:bg-primary/90 transition-all w-full md:w-auto"
+         >
+           <Plus className="w-5 h-5 mr-2" /> Post New Opening
+         </Link>      </div>
 
       {/* Quick Stats Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mt-6">
