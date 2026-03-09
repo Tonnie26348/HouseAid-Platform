@@ -2,7 +2,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
 
 const WorkerProtectedRoute = () => {
-  const { profile, loading } = useAuth();
+  const { userRole, loading } = useAuth();
 
   if (loading) {
     return (
@@ -15,8 +15,7 @@ const WorkerProtectedRoute = () => {
     );
   }
 
-  const role = profile?.role?.toLowerCase();
-  const isWorker = role === "domestic worker" || role === "worker";
+  const isWorker = userRole === "domestic worker" || userRole === "worker";
 
   if (!isWorker) {
     return <Navigate to="/unauthorized" replace />;

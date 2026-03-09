@@ -30,7 +30,7 @@ const Sidebar = ({
   isSidebarOpen: boolean;
   setSidebarOpen: (isOpen: boolean) => void;
 }) => {
-  const { profile, signOut } = useAuth();
+  const { profile, signOut, userRole } = useAuth();
   const navigate = useNavigate();
 
   const handleLogout = async () => {
@@ -42,8 +42,7 @@ const Sidebar = ({
     }
   };
 
-  const role = profile?.role?.toLowerCase();
-  const isHousehold = role === "household" || role === "employer";
+  const isHousehold = userRole === "household" || userRole === "employer";
 
   const employerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
@@ -100,7 +99,7 @@ const Sidebar = ({
         <nav className="flex-grow py-8 px-4 space-y-1 overflow-y-auto">
           {links.map((link, idx) => (
             <NavLink
-              key={`${link.to}-${link.label}`}
+              key={`${link.to}-${link.label}-${idx}`}
               to={link.to}
               end={link.to === "/platform"}
               onClick={() => setSidebarOpen(false)}

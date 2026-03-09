@@ -14,6 +14,7 @@ type AuthContextType = {
   user: User | null;
   profile: Profile | null;
   loading: boolean;
+  userRole: string | null;
   signOut: () => Promise<void>;
 };
 
@@ -22,6 +23,7 @@ const AuthContext = createContext<AuthContextType>({
   user: null,
   profile: null,
   loading: true,
+  userRole: null,
   signOut: async () => {},
 });
 
@@ -92,11 +94,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     setProfile(null);
   };
 
+  // Helper to get normalized role from either profile or metadata
+  const userRole = (profile?.role || user?.user_metadata?.role || "")?.toLowerCase();
+
   const value = {
     session,
     user,
     profile,
     loading,
+    userRole,
     signOut,
   };
 
@@ -106,4 +112,3 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     </AuthContext.Provider>
   );
 };
-

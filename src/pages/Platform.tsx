@@ -4,7 +4,7 @@ import WorkerDashboard from "./WorkerDashboard";
 import { motion } from "framer-motion";
 
 const Platform = () => {
-  const { profile, loading } = useAuth();
+  const { userRole, loading } = useAuth();
 
   if (loading) {
     return (
@@ -17,8 +17,7 @@ const Platform = () => {
     );
   }
 
-  const role = profile?.role?.toLowerCase();
-  const isHousehold = role === "household" || role === "employer";
+  const isHousehold = userRole === "household" || userRole === "employer";
 
   return (
     <motion.div
