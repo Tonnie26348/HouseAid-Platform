@@ -3,6 +3,7 @@ import { Heart, Target, Eye, Users, TrendingUp, Award, ShieldCheck, Zap, Globe }
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { Badge } from "@/components/ui/badge";
 
 const About = () => {
   const values = [
@@ -185,11 +186,5 @@ const About = () => {
     </div>
   );
 };
-
-const Badge = ({ children, className }: { children: React.ReactNode, className?: string }) => (
-  <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 ${className}`}>
-    {children}
-  </span>
-);
 
 export default About;
