@@ -11,7 +11,8 @@ import {
   X,
   MessageSquare,
   ShieldCheck,
-  Briefcase
+  Briefcase,
+  GraduationCap
 } from "lucide-react";
 import { Link, NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { Logo } from "./Logo";
@@ -47,6 +48,7 @@ const Sidebar = ({
   const employerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
+    { to: "/platform/profile", icon: User, label: "My Profile" },
     { to: "/platform/workers", icon: Users, label: "My Workers" },
     { to: "/platform/all-workers", icon: Briefcase, label: "Browse Workers" },
     { to: "/platform/contracts", icon: FileText, label: "Contracts" },
@@ -59,6 +61,7 @@ const Sidebar = ({
     { to: "/platform/profile", icon: User, label: "My Profile" },
     { to: "/platform/jobs", icon: Briefcase, label: "Available Jobs" },
     { to: "/platform/my-contracts", icon: FileText, label: "My Contracts" },
+    { to: "/platform/academy", icon: GraduationCap, label: "Skills Academy" },
     { to: "/platform/profile", icon: Settings, label: "Settings" },
   ];
 
@@ -95,9 +98,9 @@ const Sidebar = ({
         </div>
 
         <nav className="flex-grow py-8 px-4 space-y-1 overflow-y-auto">
-          {links.map((link) => (
+          {links.map((link, idx) => (
             <NavLink
-              key={link.to}
+              key={`${link.to}-${link.label}`}
               to={link.to}
               end={link.to === "/platform"}
               onClick={() => setSidebarOpen(false)}
