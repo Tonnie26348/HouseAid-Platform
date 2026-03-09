@@ -34,6 +34,7 @@ const Academy = lazy(() => import("./pages/Academy"));
 const CoursePlayer = lazy(() => import("./pages/CoursePlayer"));
 
 import MainLayout from "./components/shared/MainLayout";
+import DashboardLayout from "./components/shared/DashboardLayout";
 import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import HouseholdProtectedRoute from "./components/shared/HouseholdProtectedRoute";
