@@ -51,6 +51,7 @@ const Sidebar = ({
     { to: "/platform", icon: Home, label: "Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
     { to: "/platform/profile", icon: User, label: "My Profile" },
+    { to: "/platform/jobs/new", icon: Plus, label: "Post Job" },
     { to: "/platform/workers", icon: Users, label: "My Workers" },
     { to: "/platform/all-workers", icon: Briefcase, label: "Browse Workers" },
     { to: "/platform/contracts", icon: FileText, label: "Contracts" },

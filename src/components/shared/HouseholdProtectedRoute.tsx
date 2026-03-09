@@ -1,8 +1,22 @@
 import { useAuth } from "@/hooks/useAuth";
 import { Navigate, Outlet } from "react-router-dom";
+import { toast } from "sonner";
+import { useEffect } from "react";
 
 const HouseholdProtectedRoute = () => {
   const { userRole, loading } = useAuth();
+
+  useEffect(() => {
+    if (!loading && userRole) {
+      const normalizedRole = userRole.toLowerCase();
+      const isHousehold = normalizedRole === "household" || normalizedRole === "employer";
+      
+      if (!isHousehold) {
+        console.error("Access denied. Role is:", userRole);
+        toast.error("Access Denied: This feature is only for Employers/Households.");
+      }
+    }
+  }, [userRole, loading]);
 
   if (loading) {
     return (
@@ -15,10 +29,11 @@ const HouseholdProtectedRoute = () => {
     );
   }
 
-  const isHousehold = userRole === "household" || userRole === "employer";
+  const normalizedRole = (userRole || "").toLowerCase();
+  const isHousehold = normalizedRole === "household" || normalizedRole === "employer";
 
   if (!isHousehold) {
-    return <Navigate to="/unauthorized" replace />;
+    return <Navigate to="/platform" replace />;
   }
 
   return <Outlet />;
