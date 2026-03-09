@@ -12,7 +12,8 @@ import {
   MessageSquare,
   ShieldCheck,
   Briefcase,
-  GraduationCap
+  GraduationCap,
+  Plus
 } from "lucide-react";
 import { Link, NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { Logo } from "./Logo";
