@@ -125,18 +125,18 @@ const WorkerDashboard = () => {
             <CardContent className="p-0">
                <div className="divide-y divide-gray-50">
                   {[
-                    { title: "Executive Chef", household: "The Kamau Household", status: "In Review", date: "2h ago" },
-                    { title: "Senior Nanny", household: "Kilimani Residence", status: "Interviewing", date: "1d ago" },
-                    { title: "Home Manager", household: "Muthaiga Estate", status: "Contract Sent", date: "3d ago" }
+                    { title: "Executive Chef", employer: "The Kamau Household", status: "In Review", date: "2h ago" },
+                    { title: "Senior Nanny", employer: "Kilimani Residence", status: "Interviewing", date: "1d ago" },
+                    { title: "Home Manager", employer: "Muthaiga Estate", status: "Contract Sent", date: "3d ago" }
                   ].map((app, i) => (
                     <div key={i} className="p-6 md:p-8 flex items-center justify-between gap-4 hover:bg-gray-50 transition-colors">
-                       <div className="flex gap-4 min-w-0">
-                          <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl md:rounded-2xl bg-primary/5 flex items-center justify-center text-primary font-bold flex-shrink-0">
-                             {app.household.charAt(4)}
+                       <div className="flex gap-4">
+                          <div className="w-12 h-12 md:w-14 md:h-14 rounded-full bg-primary/5 text-primary font-black flex items-center justify-center border-2 border-primary/10">
+                             {app.employer.charAt(4)}
                           </div>
                           <div className="min-w-0">
                              <h4 className="font-bold text-gray-900 text-base md:text-lg truncate">{app.title}</h4>
-                             <p className="text-sm text-gray-400 font-medium truncate">{app.household}</p>
+                             <p className="text-sm text-gray-400 font-medium truncate">{app.employer}</p>
                           </div>
                        </div>
                        <div className="text-right flex-shrink-0">

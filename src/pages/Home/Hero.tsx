@@ -76,7 +76,7 @@ const Hero = () => {
               <img
                 src={heroImage}
                 alt="Professional domestic worker"
-                className="w-full h-[600px] object-cover"
+                className="w-full h-[400px] lg:h-[600px] object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
             </div>

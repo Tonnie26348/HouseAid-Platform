@@ -1,6 +1,7 @@
 import { useAuth } from "@/hooks/useAuth";
 import EmployerDashboard from "./EmployerDashboard";
 import WorkerDashboard from "./WorkerDashboard";
+import AdminDashboard from "./AdminDashboard";
 import { motion } from "framer-motion";
 
 const Platform = () => {
@@ -17,7 +18,17 @@ const Platform = () => {
     );
   }
 
-  const isHousehold = userRole === "household" || userRole === "employer";
+  const renderDashboard = () => {
+    switch (userRole) {
+      case "admin":
+        return <AdminDashboard />;
+      case "employer":
+        return <EmployerDashboard />;
+      case "worker":
+      default:
+        return <WorkerDashboard />;
+    }
+  };
 
   return (
     <motion.div
@@ -25,11 +36,7 @@ const Platform = () => {
       animate={{ opacity: 1 }}
       className="min-h-screen bg-gray-50"
     >
-      {isHousehold ? (
-        <EmployerDashboard />
-      ) : (
-        <WorkerDashboard />
-      )}
+      {renderDashboard()}
     </motion.div>
   );
 };

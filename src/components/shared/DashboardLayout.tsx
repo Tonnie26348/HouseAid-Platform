@@ -38,16 +38,14 @@ const Sidebar = ({
   const handleLogout = async () => {
     try {
       await signOut();
-      // Use window.location for a hard refresh to clear all possible memory states
-      window.location.href = "/HouseAid-Platform/";
+      navigate("/login");
     } catch (error) {
       console.error("Logout error:", error);
-      // Fallback
-      window.location.href = "/HouseAid-Platform/";
+      navigate("/login");
     }
   };
 
-  const isHousehold = userRole === "household" || userRole === "employer";
+  const isHousehold = userRole === "employer";
 
   const employerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
@@ -68,7 +66,15 @@ const Sidebar = ({
     { to: "/platform/academy", icon: GraduationCap, label: "Skills Academy" },
   ];
 
-  const links = isHousehold ? employerLinks : workerLinks;
+  const adminLinks = [
+    { to: "/platform", icon: Home, label: "Admin Panel" },
+    { to: "/platform/messages", icon: MessageSquare, label: "System Messages" },
+    { to: "/platform/all-workers", icon: ShieldCheck, label: "Verify Workers" },
+    { to: "/platform/contracts", icon: FileText, label: "All Contracts" },
+    { to: "/platform/profile", icon: Settings, label: "Settings" },
+  ];
+
+  const links = userRole === "admin" ? adminLinks : (userRole === "employer" ? employerLinks : workerLinks);
 
   return (
     <>
@@ -205,7 +211,7 @@ const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) =>
         // Local state thinks we are logged in, but Supabase says no
         console.warn("Session lost, signing out...");
         await signOut();
-        window.location.href = "/HouseAid-Platform/login";
+        navigate("/login");
       }
     };
 

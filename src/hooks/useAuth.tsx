@@ -123,7 +123,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // Helper to get normalized role from either profile or metadata
-  const userRole = (profile?.role || user?.user_metadata?.role || "")?.toLowerCase();
+  const rawRole = (profile?.role || user?.user_metadata?.role || "worker").toLowerCase();
+  const userRole = rawRole.includes("worker") ? "worker" : 
+                   rawRole.includes("employer") || rawRole.includes("household") ? "employer" : 
+                   rawRole.includes("admin") ? "admin" : "worker";
 
   const value = {
     session,

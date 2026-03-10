@@ -161,7 +161,7 @@ const Profile = () => {
   );
 
   const role = profile?.role?.toLowerCase();
-  const isWorker = role === "domestic worker" || role === "worker";
+  const isWorker = userRole === "worker";
 
   return (
     <div className="max-w-5xl mx-auto pb-10">

@@ -189,7 +189,7 @@ const JobDetail = () => {
             </div>
           </div>
           
-          {profile?.role === 'Domestic Worker' && (
+          {userRole === 'worker' && (
             <div className="w-full md:w-auto">
               <Button 
                 size="lg" 
@@ -239,7 +239,7 @@ const JobDetail = () => {
         {/* Sidebar - Employer Info */}
         <aside className="space-y-8">
           <Card className="rounded-[2rem] border-none shadow-sm p-8 bg-white sticky top-24">
-            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">About the Household</h3>
+            <h3 className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-6">About the Employer</h3>
             
             <Link to={`/platform/employer/${job.household_id}`} className="group block text-center mb-8">
               <Avatar className="w-24 h-24 mx-auto mb-4 border-4 border-gray-50 group-hover:scale-105 transition-transform">
@@ -257,12 +257,12 @@ const JobDetail = () => {
 
             <div className="space-y-4 mb-8">
                <p className="text-sm text-gray-600 text-center leading-relaxed italic">
-                 "{job.household?.bio || 'No household description provided yet.'}"
+                 "{job.household?.bio || 'No employer description provided yet.'}"
                </p>
             </div>
 
             <Button asChild variant="outline" className="w-full rounded-xl h-12 font-bold border-2">
-              <Link to={`/platform/employer/${job.household_id}`}>View Household Profile</Link>
+              <Link to={`/platform/employer/${job.household_id}`}>View Employer Profile</Link>
             </Button>
           </Card>
         </aside>

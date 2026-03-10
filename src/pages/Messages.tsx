@@ -107,7 +107,7 @@ const Messages = () => {
                           <span className="font-bold truncate text-sm md:text-base">{contact.full_name}</span>
                         </div>
                         <p className={cn("text-[10px] md:text-xs truncate font-medium", selectedContact?.id === contact.id ? "text-white/80" : "text-gray-400")}>
-                          {contact.role === 'Domestic Worker' ? 'Professional' : 'Household'}
+                          {contact.role?.toLowerCase().includes('worker') ? 'Professional' : 'Employer'}
                         </p>
                       </div>
                     </button>

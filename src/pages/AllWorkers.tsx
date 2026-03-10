@@ -48,7 +48,7 @@ const AllWorkers = () => {
         verification:verification_requests(status),
         enrollments:enrollments(status, course:courses(title))
       `)
-      .eq("role", "Domestic Worker");
+      .eq("role", "worker");
 
     if (filters.search) {
       query = query.ilike("full_name", `%${filters.search}%`);

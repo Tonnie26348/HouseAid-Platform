@@ -22,6 +22,25 @@
 
   <body>
     <div id="root"></div>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages
+      // MIT License
+      // https://github.com/rafgraph/spa-github-pages
+      // This script checks to see if a redirect is present in the query string,
+      // converts it back into a correct url and adds it to the
+      // browser's history using window.history.replaceState(...),
+      // which will cause the browser to refresh the page without actually
+      // reloading it.
+      (function(l) {
+        if (l.search[1] === 'p' && l.search[2] === '=') {
+          var decoded = decodeURIComponent(l.search.slice(3).replace(/~and~/g, '&').replace(/~slash~/g, '/'));
+          if (decoded.slice(0, 1) !== '/') decoded = '/' + decoded;
+          window.history.replaceState(null, null,
+              l.pathname.slice(0, l.pathname.length - 1) + decoded + l.hash
+          );
+        }
+      }(window.location))
+    </script>
     <script type="module" src="src/main.tsx"></script>
   </body>
 </html>

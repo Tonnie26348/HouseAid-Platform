@@ -91,7 +91,7 @@ const WorkerContracts = () => {
         <div className="text-center py-24 bg-white rounded-[3rem] border border-dashed border-gray-200">
           <Briefcase className="w-16 h-16 text-gray-300 mx-auto mb-4" />
           <h3 className="text-xl font-bold text-gray-900">No offers yet</h3>
-          <p className="text-gray-500 max-w-xs mx-auto">Apply for jobs to receive contract offers from households.</p>
+          <p className="text-gray-500 max-w-xs mx-auto">Apply for jobs to receive contract offers from employers.</p>
         </div>
       ) : (
         <div className="grid gap-6 md:grid-cols-2">
@@ -131,7 +131,7 @@ const WorkerContracts = () => {
                         </h3>
                         <div className="flex items-center gap-1.5 text-gray-400 font-bold text-xs uppercase tracking-widest mt-1">
                           <MapPin className="w-3 h-3 text-primary" />
-                          <span>{contract.employer?.address || 'Verified Household'}</span>
+                          <span>{contract.employer?.address || 'Verified Employer'}</span>
                         </div>
                       </div>
                     </div>
@@ -173,7 +173,7 @@ const WorkerContracts = () => {
                       ) : (
                         <Button variant="outline" className="w-full rounded-xl h-12 font-black border-2" asChild>
                            <Link to="/platform/messages">
-                             Message Household <ArrowRight className="ml-2 w-4 h-4" />
+                             Message Employer <ArrowRight className="ml-2 w-4 h-4" />
                            </Link>
                         </Button>
                       )}

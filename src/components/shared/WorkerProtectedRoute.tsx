@@ -15,7 +15,7 @@ const WorkerProtectedRoute = () => {
     );
   }
 
-  const isWorker = userRole === "domestic worker" || userRole === "worker";
+  const isWorker = userRole === "worker";
 
   if (!isWorker) {
     return <Navigate to="/unauthorized" replace />;
