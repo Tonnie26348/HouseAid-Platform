@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>HouseAid - Redirecting...</title>
+    <script type="text/javascript">
+      // HouseAid SPA Redirect Script
+      // This allows direct navigation to sub-routes on GitHub Pages (SPAs)
+      var path = window.location.pathname;
+      var query = window.location.search;
+      var hash = window.location.hash;
+      
+      // We take the current path and encode it into a query parameter
+      // so that index.html can decode it and route correctly.
+      var redirectPath = path.replace(/\/HouseAid-Platform\//, '');
+      window.location.replace('/HouseAid-Platform/?p=' + encodeURIComponent(redirectPath) + query + hash);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
