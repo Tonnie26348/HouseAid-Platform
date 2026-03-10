@@ -32,7 +32,6 @@ const WorkerContracts = lazy(() => import("./pages/WorkerContracts"));
 const Messages = lazy(() => import("./pages/Messages"));
 const Academy = lazy(() => import("./pages/Academy"));
 const CoursePlayer = lazy(() => import("./pages/CoursePlayer"));
-const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
 
 import MainLayout from "./components/shared/MainLayout";
 import DashboardLayout from "./components/shared/DashboardLayout";
@@ -40,7 +39,6 @@ import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import HouseholdProtectedRoute from "./components/shared/HouseholdProtectedRoute";
 import WorkerProtectedRoute from "./components/shared/WorkerProtectedRoute";
-import AdminProtectedRoute from "./components/shared/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -112,11 +110,6 @@ const App = () => (
                   </Route>
 
                   <Route path="employer/:id" element={<EmployerProfileView />} />
-                  
-                  {/* Admin Specific Routes */}
-                  <Route element={<AdminProtectedRoute />}>
-                    <Route path="admin" element={<AdminDashboard />} />
-                  </Route>
                 </Route>
               </Route>
 

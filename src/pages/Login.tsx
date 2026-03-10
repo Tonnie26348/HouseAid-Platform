@@ -129,27 +129,6 @@ const Login = () => {
               <Button type="submit" className="w-full h-12 text-lg font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
                 Sign In
               </Button>
-
-              {/* Admin Login Shortcut */}
-              <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-3">
-                 <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:scale-110 transition-transform">
-                    <ShieldCheck className="w-5 h-5" />
-                 </div>
-                 <div className="text-left">
-                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest">Admin Access</p>
-                    <button 
-                      type="button"
-                      onClick={() => {
-                        form.setValue('email', 'adminhouseaid@gmail.com');
-                        form.setValue('password', '123456');
-                        toast({ title: "Admin Mode", description: "Admin credentials pre-filled. Press Sign In." });
-                      }}
-                      className="text-xs font-black text-primary hover:underline"
-                    >
-                      Login as Admin
-                    </button>
-                 </div>
-              </div>
             </form>
           </Form>
 

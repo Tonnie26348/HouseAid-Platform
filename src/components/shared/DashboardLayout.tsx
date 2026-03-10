@@ -66,15 +66,7 @@ const Sidebar = ({
     { to: "/platform/academy", icon: GraduationCap, label: "Skills Academy" },
   ];
 
-  const adminLinks = [
-    { to: "/platform", icon: Home, label: "Admin Panel" },
-    { to: "/platform/messages", icon: MessageSquare, label: "System Messages" },
-    { to: "/platform/all-workers", icon: ShieldCheck, label: "Verify Workers" },
-    { to: "/platform/contracts", icon: FileText, label: "All Contracts" },
-    { to: "/platform/profile", icon: Settings, label: "Settings" },
-  ];
-
-  const links = userRole === "admin" ? adminLinks : (userRole === "employer" ? employerLinks : workerLinks);
+  const links = isHousehold ? employerLinks : workerLinks;
 
   return (
     <>
