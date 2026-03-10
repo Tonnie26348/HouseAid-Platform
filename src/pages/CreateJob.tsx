@@ -37,6 +37,10 @@ const CreateJob = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
 
+  useEffect(() => {
+    console.log("CreateJob component mounted");
+  }, []);
+
   const form = useForm<z.infer<typeof jobSchema>>({
     resolver: zodResolver(jobSchema),
     defaultValues: {

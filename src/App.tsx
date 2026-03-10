@@ -86,12 +86,17 @@ const App = () => (
                   {/* Shared Dashboard Features */}
                   <Route path="profile" element={<Profile />} />
                   <Route path="messages" element={<Messages />} />
+                  
+                  {/* Priority Routes (Specific paths before parameterized ones) */}
+                  <Route element={<HouseholdProtectedRoute />}>
+                    <Route path="jobs/new" element={<CreateJob />} />
+                  </Route>
+
                   <Route path="jobs" element={<Jobs />} />
                   <Route path="jobs/:id" element={<JobDetail />} />
                   
                   {/* Household Specific Routes */}
                   <Route element={<HouseholdProtectedRoute />}>
-                    <Route path="jobs/new" element={<CreateJob />} />
                     <Route path="workers" element={<MyWorkers />} />
                     <Route path="all-workers" element={<AllWorkers />} />
                     <Route path="contracts" element={<Contracts />} />
