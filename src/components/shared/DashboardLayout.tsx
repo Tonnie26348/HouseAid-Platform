@@ -205,26 +205,41 @@ const DashboardHeader = ({
 
 const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) => {
   const [isSidebarOpen, setSidebarOpen] = React.useState(false);
+  const [isNavigating, setIsNavigating] = React.useState(false);
   const { pathname } = useLocation();
-  const { user, signOut } = useAuth();
+  const { user, signOut, loading: authLoading } = useAuth();
+  const navigate = useNavigate();
 
-  // Background session check
+  // Background session check & Navigation listener
   React.useEffect(() => {
+    setIsNavigating(true);
+    const timer = setTimeout(() => setIsNavigating(false), 300);
+
     const checkSession = async () => {
       const { data: { session } } = await supabase.auth.getSession();
       if (!session && user) {
-        // Local state thinks we are logged in, but Supabase says no
-        console.warn("Session lost, signing out...");
+        console.warn("Session lost, quietly recovering...");
         await signOut();
-        navigate("/login");
+        navigate("/login", { replace: true });
       }
     };
 
-    // Check once on mount and then every minute
     checkSession();
-    const interval = setInterval(checkSession, 1000 * 60);
-    return () => clearInterval(interval);
-  }, [user, signOut]);
+    const interval = setInterval(checkSession, 1000 * 60 * 5); // Every 5 mins is enough
+    
+    return () => {
+      clearTimeout(timer);
+      clearInterval(interval);
+    };
+  }, [pathname, user, signOut, navigate]);
+
+  if (authLoading) {
+    return (
+      <div className="h-[100dvh] w-full flex items-center justify-center bg-gray-50/50">
+        <div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" />
+      </div>
+    );
+  }
 
   // Dynamically determine page title if not provided
   const getPageTitle = () => {
@@ -242,12 +257,25 @@ const DashboardLayout = ({ pageTitle = "Dashboard" }: { pageTitle?: string }) =>
   };
 
   return (
-    <div className="flex h-[100dvh] bg-gray-50/50 font-sans overflow-hidden">
+    <div className="flex h-[100dvh] bg-gray-50/50 font-sans overflow-hidden relative">
+      {/* Global Navigation Progress Bar */}
+      <AnimatePresence>
+        {isNavigating && (
+          <motion.div
+            initial={{ scaleX: 0, originX: 0 }}
+            animate={{ scaleX: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed top-0 left-0 right-0 h-1 bg-primary z-[100]"
+          />
+        )}
+      </AnimatePresence>
+
       <Sidebar isSidebarOpen={isSidebarOpen} setSidebarOpen={setSidebarOpen} />
       
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden relative">
         <DashboardHeader setSidebarOpen={setSidebarOpen} pageTitle={getPageTitle()} />
-        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scrollbar-hide">
+        <main className="flex-1 overflow-y-auto p-4 md:p-6 lg:p-8 scrollbar-hide bg-gray-50/30">
           <motion.div
             key={pathname}
             initial={{ opacity: 0, y: 10 }}

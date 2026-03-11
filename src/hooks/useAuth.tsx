@@ -41,6 +41,11 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const fetchProfile = async (userId: string, userMetadata: any) => {
     try {
+      console.log("Synchronizing profile for:", userId);
+      
+      // Clear any stale queries before fetching new profile
+      queryClient.clear();
+
       let { data, error } = await supabase
         .from("profiles")
         .select("id, full_name, avatar_url, role")
@@ -48,17 +53,19 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .maybeSingle();
 
       if (error) {
-        console.error("Profile fetch error:", error);
+        console.error("Profile sync error:", error);
         return;
       }
 
-      // If profile doesn't exist, create it immediately
+      // Self-healing: If profile doesn't exist, create it from metadata
       if (!data) {
-        console.log("Profile missing, creating for user:", userId);
+        console.log("Profile missing in DB, auto-generating...");
+        const metaRole = (userMetadata?.role || "worker").toLowerCase();
         const newProfile = {
           id: userId,
           full_name: userMetadata?.full_name || 'HouseAid User',
-          role: userMetadata?.role || 'worker',
+          role: metaRole.includes('employer') || metaRole.includes('household') ? 'employer' : 
+                metaRole.includes('admin') ? 'admin' : 'worker',
           updated_at: new Date()
         };
         
@@ -69,15 +76,16 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           .single();
 
         if (createError) {
-          console.error("Failed to auto-create profile:", createError);
+          console.error("Critical: Auto-profile creation failed:", createError);
         } else {
+          console.log("Profile restored successfully.");
           setProfile(createdData);
         }
       } else {
         setProfile(data);
       }
     } catch (error) {
-      console.error("Unexpected profile sync error:", error);
+      console.error("Unexpected authentication sync failure:", error);
     }
   };
 
@@ -91,7 +99,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           await fetchProfile(session.user.id, session.user.user_metadata);
         }
       } catch (error) {
-        console.error("Error getting session:", error);
+        console.error("Session initialization failed:", error);
       } finally {
         setLoading(false);
       }
@@ -100,20 +108,20 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     getInitialSession();
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
-      console.log("Auth event:", event);
-      setSession(session);
-      setUser(session?.user ?? null);
+      console.log("Auth Event Triggered:", event);
       
-      if (session?.user) {
-        if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || !profile) {
-          await fetchProfile(session.user.id, session.user.user_metadata);
-        }
-      } else {
+      if (event === 'SIGNED_OUT') {
+        console.log("Clearing all secure states...");
+        queryClient.clear();
         setProfile(null);
-        if (event === 'SIGNED_OUT' || event === 'USER_UPDATED') {
-          queryClient.clear();
-        }
+        setSession(null);
+        setUser(null);
+      } else if (session?.user) {
+        setSession(session);
+        setUser(session.user);
+        await fetchProfile(session.user.id, session.user.user_metadata);
       }
+      
       setLoading(false);
     });
 

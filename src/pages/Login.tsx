@@ -16,6 +16,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/components/ui/use-toast";
 import { ShieldCheck, Mail, Lock, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
+import { useQueryClient } from "@tanstack/react-query";
 
 const formSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email address." }),
@@ -25,6 +26,7 @@ const formSchema = z.object({
 const Login = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -46,6 +48,8 @@ const Login = () => {
         variant: "destructive",
       });
     } else {
+      // Clear cache to force fresh data load
+      queryClient.clear();
       toast({
         title: "Welcome back!",
         description: "Redirecting to your dashboard...",

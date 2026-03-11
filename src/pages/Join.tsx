@@ -57,11 +57,12 @@ const Join = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof formSchema>) => {
+    const redirectUrl = window.location.origin + import.meta.env.BASE_URL;
     const { data: signUpData, error: signUpError } = await supabase.auth.signUp({
       email: values.email,
       password: values.password,
       options: {
-        emailRedirectTo: window.location.origin + "/HouseAid-Platform/",
+        emailRedirectTo: redirectUrl,
         data: {
           full_name: values.fullName,
           role: values.role, // 'employer' or 'worker'
