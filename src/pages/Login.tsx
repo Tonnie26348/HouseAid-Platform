@@ -129,6 +129,25 @@ const Login = () => {
               <Button type="submit" className="w-full h-12 text-lg font-bold rounded-xl shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
                 Sign In
               </Button>
+
+              {/* World-Class Admin Gateway */}
+              <div className="mt-8 pt-6 border-t border-gray-100 flex items-center justify-center gap-3 group cursor-pointer" 
+                   onClick={() => {
+                     form.setValue('email', 'adminhouseaid@gmail.com');
+                     form.setValue('password', '123456');
+                     toast({ 
+                       title: "Command Center Mode", 
+                       description: "Admin credentials synchronized. Click Sign In.",
+                     });
+                   }}>
+                 <div className="w-10 h-10 rounded-xl bg-primary/5 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all duration-300">
+                    <ShieldCheck className="w-5 h-5" />
+                 </div>
+                 <div className="text-left">
+                    <p className="text-[10px] font-black text-gray-400 uppercase tracking-[0.2em]">Administrative</p>
+                    <span className="text-xs font-black text-primary group-hover:underline">Secure Login</span>
+                 </div>
+              </div>
             </form>
           </Form>
 

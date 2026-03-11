@@ -32,6 +32,8 @@ const WorkerContracts = lazy(() => import("./pages/WorkerContracts"));
 const Messages = lazy(() => import("./pages/Messages"));
 const Academy = lazy(() => import("./pages/Academy"));
 const CoursePlayer = lazy(() => import("./pages/CoursePlayer"));
+const AdminDashboard = lazy(() => import("./pages/AdminDashboard"));
+const Transactions = lazy(() => import("./pages/Transactions"));
 
 import MainLayout from "./components/shared/MainLayout";
 import DashboardLayout from "./components/shared/DashboardLayout";
@@ -39,6 +41,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import ProtectedRoute from "./components/shared/ProtectedRoute";
 import HouseholdProtectedRoute from "./components/shared/HouseholdProtectedRoute";
 import WorkerProtectedRoute from "./components/shared/WorkerProtectedRoute";
+import AdminProtectedRoute from "./components/shared/AdminProtectedRoute";
 
 const queryClient = new QueryClient();
 
@@ -86,6 +89,7 @@ const App = () => (
                   {/* Shared Dashboard Features */}
                   <Route path="profile" element={<Profile />} />
                   <Route path="messages" element={<Messages />} />
+                  <Route path="transactions" element={<Transactions />} />
                   
                   {/* Priority Routes (Specific paths before parameterized ones) */}
                   <Route element={<HouseholdProtectedRoute />}>
@@ -110,6 +114,11 @@ const App = () => (
                   </Route>
 
                   <Route path="employer/:id" element={<EmployerProfileView />} />
+
+                  {/* Admin Specific Routes */}
+                  <Route element={<AdminProtectedRoute />}>
+                    <Route path="admin" element={<AdminDashboard />} />
+                  </Route>
                 </Route>
               </Route>
 

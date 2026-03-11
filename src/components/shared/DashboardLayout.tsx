@@ -50,6 +50,7 @@ const Sidebar = ({
   const employerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
+    { to: "/platform/transactions", icon: CreditCard, label: "Transactions" },
     { to: "/platform/profile", icon: User, label: "My Profile" },
     { to: "/platform/jobs/new", icon: Plus, label: "Post Job" },
     { to: "/platform/workers", icon: Users, label: "My Workers" },
@@ -60,13 +61,22 @@ const Sidebar = ({
   const workerLinks = [
     { to: "/platform", icon: Home, label: "Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
+    { to: "/platform/transactions", icon: CreditCard, label: "Transactions" },
     { to: "/platform/profile", icon: User, label: "My Profile" },
     { to: "/platform/jobs", icon: Briefcase, label: "Available Jobs" },
     { to: "/platform/my-contracts", icon: FileText, label: "My Contracts" },
     { to: "/platform/academy", icon: GraduationCap, label: "Skills Academy" },
   ];
 
-  const links = isHousehold ? employerLinks : workerLinks;
+  const adminLinks = [
+    { to: "/platform", icon: Home, label: "Admin Panel" },
+    { to: "/platform/messages", icon: MessageSquare, label: "System Messages" },
+    { to: "/platform/all-workers", icon: ShieldCheck, label: "Verify Workers" },
+    { to: "/platform/contracts", icon: FileText, label: "All Contracts" },
+    { to: "/platform/profile", icon: Settings, label: "Settings" },
+  ];
+
+  const links = userRole === "admin" ? adminLinks : (isHousehold ? employerLinks : workerLinks);
 
   return (
     <>

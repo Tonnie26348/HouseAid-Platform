@@ -37,6 +37,7 @@ const AllWorkers = () => {
   const [filters, setFilters] = useState({
     search: "",
     skill: "all",
+    neighborhood: "",
   });
 
   const fetchWorkers = async () => {
@@ -46,7 +47,8 @@ const AllWorkers = () => {
       .select(`
         *,
         verification:verification_requests(status),
-        enrollments:enrollments(status, course:courses(title))
+        enrollments:enrollments(status, course:courses(title)),
+        reviews:reviews(rating)
       `)
       .eq("role", "worker");
 
@@ -59,20 +61,38 @@ const AllWorkers = () => {
     if (error) {
       toast({ title: "Error", description: error.message, variant: "destructive" });
     } else {
-      let filteredData = data || [];
+      let processedData = data || [];
+      
+      // Calculate real-time ratings
+      processedData = processedData.map(w => {
+        const ratings = w.reviews || [];
+        const avg = ratings.length > 0 
+          ? ratings.reduce((acc: any, curr: any) => acc + curr.rating, 0) / ratings.length 
+          : 0;
+        return { ...w, avgRating: avg, totalReviews: ratings.length };
+      });
+
+      // Client-side filtering for skill and neighborhood
       if (filters.skill !== "all") {
-        filteredData = filteredData.filter(w => 
+        processedData = processedData.filter(w => 
           w.skills?.some((s: string) => s.toLowerCase().includes(filters.skill.toLowerCase()))
         );
       }
-      setWorkers(filteredData);
+
+      if (filters.neighborhood) {
+        processedData = processedData.filter(w => 
+          (w.neighborhood || w.address || "").toLowerCase().includes(filters.neighborhood.toLowerCase())
+        );
+      }
+
+      setWorkers(processedData);
     }
     setLoading(false);
   };
 
   useEffect(() => {
     fetchWorkers();
-  }, [filters.skill]);
+  }, [filters.skill, filters.neighborhood]);
 
   return (
     <div className="flex flex-col gap-8">
@@ -119,6 +139,19 @@ const AllWorkers = () => {
                     <SelectItem value="gardening">Gardening</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div className="space-y-4">
+                <label className="text-xs font-black text-gray-400 uppercase tracking-widest ml-1">Neighborhood</label>
+                <div className="relative">
+                  <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input 
+                    placeholder="e.g. Kilimani" 
+                    className="pl-9 rounded-xl h-12 border-gray-100 font-medium"
+                    value={filters.neighborhood}
+                    onChange={(e) => setFilters({ ...filters, neighborhood: e.target.value })}
+                  />
+                </div>
               </div>
 
               <Card className="bg-primary/5 border-none p-6 rounded-3xl">
@@ -179,7 +212,7 @@ const AllWorkers = () => {
                             </h3>
                             <div className="flex items-center gap-1.5 text-gray-400 font-bold text-[10px] md:text-xs uppercase tracking-widest mt-1">
                               <Star className="w-3 h-3 text-yellow-500 fill-current" />
-                              <span>4.9 (24 Reviews)</span>
+                              <span>{worker.avgRating > 0 ? worker.avgRating.toFixed(1) : 'New'} ({worker.totalReviews} Reviews)</span>
                             </div>
                           </div>
                         </div>
