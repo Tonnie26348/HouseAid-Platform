@@ -45,18 +45,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         .from("profiles")
         .select("id, full_name, avatar_url, role")
         .eq("id", userId)
-        .single();
+        .maybeSingle(); // Use maybeSingle to avoid 406/JSON errors if record is missing
 
       if (error) {
         console.error("Profile fetch error:", error);
-        // If we can't get the profile, the session might be corrupt
-        setProfile(null);
         return;
       }
       setProfile(data);
     } catch (error) {
       console.error("Unexpected profile fetch error:", error);
-      setProfile(null);
     }
   };
 

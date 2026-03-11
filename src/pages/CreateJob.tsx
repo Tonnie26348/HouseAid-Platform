@@ -37,10 +37,11 @@ const CreateJob = () => {
   const { user } = useAuth();
   const { toast } = useToast();
   const navigate = useNavigate();
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
 
   useEffect(() => {
-    console.log("CreateJob component mounted");
-  }, []);
+    console.log("CreateJob component mounted. Current user:", user?.id);
+  }, [user]);
 
   const form = useForm<z.infer<typeof jobSchema>>({
     resolver: zodResolver(jobSchema),
@@ -54,19 +55,47 @@ const CreateJob = () => {
   });
 
   const onSubmit = async (values: z.infer<typeof jobSchema>) => {
-    if (user) {
-        const { error } = await supabase.from("jobs").insert({
-            ...values,
-            household_id: user.id,
-        });
-
-        if (error) {
-            toast({ title: "Error", description: error.message, variant: "destructive" });
-        } else {
-            toast({ title: "Success!", description: "Your job listing is now live." });
-            navigate("/platform");
-        }
+    if (!user) {
+      toast({ title: "Session Error", description: "You must be logged in to post a job.", variant: "destructive" });
+      return;
     }
+
+    setIsSubmitting(true);
+    console.log("Attempting to post job:", values);
+
+    try {
+      const { error } = await supabase.from("jobs").insert({
+        title: values.title,
+        description: values.description,
+        location: values.location,
+        salary: values.salary,
+        job_type: values.job_type,
+        household_id: user.id,
+      });
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        toast({ title: "Post Failed", description: error.message, variant: "destructive" });
+      } else {
+        toast({ title: "Success!", description: "Your job listing is now live." });
+        navigate("/platform");
+      }
+    } catch (err: any) {
+      console.error("Unexpected error during post:", err);
+      toast({ title: "Error", description: "An unexpected error occurred.", variant: "destructive" });
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  // Log form errors if any exist
+  const onInvalid = (errors: any) => {
+    console.error("Form validation errors:", errors);
+    toast({ 
+      title: "Validation Error", 
+      description: "Please check the form for missing required fields.", 
+      variant: "destructive" 
+    });
   };
 
   return (
@@ -91,7 +120,7 @@ const CreateJob = () => {
 
           <CardContent className="p-8 md:p-12">
             <Form {...form}>
-              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+              <form onSubmit={form.handleSubmit(onSubmit, onInvalid)} className="space-y-8">
                 <div className="grid md:grid-cols-2 gap-8">
                   <FormField
                     control={form.control}
@@ -184,8 +213,15 @@ const CreateJob = () => {
                 />
 
                 <div className="pt-4">
-                  <Button type="submit" className="w-full h-14 rounded-xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.01] transition-all">
-                    <Send className="w-5 h-5 mr-2" /> Post Listing
+                  <Button type="submit" className="w-full h-14 rounded-xl text-lg font-bold shadow-lg shadow-primary/20 hover:scale-[1.01] transition-all" disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <div className="flex items-center gap-2">
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                        Processing...
+                      </div>
+                    ) : (
+                      <><Send className="w-5 h-5 mr-2" /> Post Listing</>
+                    )}
                   </Button>
                   <p className="text-center text-xs text-gray-400 mt-4 font-medium uppercase tracking-widest">
                     Your listing will be visible to thousands of verified professionals.

@@ -153,7 +153,9 @@ const DashboardHeader = ({
   setSidebarOpen: (isOpen: boolean) => void;
   pageTitle: string;
 }) => {
-  const { profile } = useAuth();
+  const { profile, userRole } = useAuth();
+
+  const displayRole = userRole === 'admin' ? 'Admin' : (userRole === 'employer' ? 'Employer' : 'Worker');
 
   return (
     <header className="h-20 bg-white/80 backdrop-blur-md sticky top-0 z-30 px-4 md:px-8 flex items-center justify-between border-b border-gray-100 flex-shrink-0">
@@ -181,9 +183,9 @@ const DashboardHeader = ({
 
         <div className="flex items-center gap-3 pl-2">
           <div className="hidden md:block text-right">
-            <div className="text-sm font-bold text-gray-900 leading-none mb-1">{profile?.full_name}</div>
+            <div className="text-sm font-bold text-gray-900 leading-none mb-1">{profile?.full_name || 'HouseAid User'}</div>
             <div className="text-[10px] font-bold text-gray-400 uppercase tracking-widest leading-none">
-              {profile?.role || 'User'}
+              {displayRole}
             </div>
           </div>
           <div className="h-10 w-10 relative">
@@ -191,7 +193,7 @@ const DashboardHeader = ({
                <img src={profile.avatar_url} alt={profile.full_name || ""} className="h-10 w-10 rounded-full object-cover border-2 border-primary/10" />
              ) : (
                <div className="h-10 w-10 rounded-full bg-primary/5 text-primary font-bold flex items-center justify-center border-2 border-primary/10">
-                 {profile?.full_name?.charAt(0)}
+                 {(profile?.full_name || 'H').charAt(0)}
                </div>
              )}
           </div>
