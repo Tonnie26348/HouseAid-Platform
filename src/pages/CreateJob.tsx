@@ -1,3 +1,4 @@
+import React, { useEffect } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/lib/supabase";
 import { useForm } from "react-hook-form";

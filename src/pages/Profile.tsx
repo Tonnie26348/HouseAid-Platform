@@ -42,7 +42,7 @@ const profileSchema = z.object({
 });
 
 const Profile = () => {
-  const { user } = useAuth();
+  const { user, userRole } = useAuth();
   const { toast } = useToast();
   const [profile, setProfile] = useState<any>(null);
   const [loading, setLoading] = useState(true);
@@ -145,7 +145,13 @@ const Profile = () => {
     } else {
       const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
       form.setValue('avatar_url', data.publicUrl);
-      onSubmit(form.getValues());
+      
+      // Update the profile record immediately with the new URL
+      await supabase.from("profiles").update({
+          avatar_url: data.publicUrl,
+          updated_at: new Date(),
+      }).eq("id", user.id);
+
       toast({ title: "Avatar Updated" });
     }
     setUploading(false);
@@ -160,7 +166,6 @@ const Profile = () => {
     </div>
   );
 
-  const role = profile?.role?.toLowerCase();
   const isWorker = userRole === "worker";
 
   return (

@@ -59,7 +59,9 @@ const AllWorkers = () => {
     const { data, error } = await query;
 
     if (error) {
+      console.error("Error fetching workers:", error);
       toast({ title: "Error", description: error.message, variant: "destructive" });
+      setWorkers([]);
     } else {
       let processedData = data || [];
       
