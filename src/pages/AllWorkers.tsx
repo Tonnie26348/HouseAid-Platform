@@ -48,7 +48,7 @@ const AllWorkers = () => {
         *,
         verification:verification_requests(status),
         enrollments:enrollments(status, course:courses(title)),
-        reviews:reviews(rating)
+        reviews!reviews_worker_id_fkey(rating)
       `)
       .eq("role", "worker");
 
