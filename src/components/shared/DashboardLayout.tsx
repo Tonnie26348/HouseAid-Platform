@@ -13,7 +13,8 @@ import {
   ShieldCheck,
   Briefcase,
   GraduationCap,
-  Plus
+  Plus,
+  CreditCard
 } from "lucide-react";
 import { Link, NavLink, useNavigate, Outlet, useLocation } from "react-router-dom";
 import { Logo } from "./Logo";
