@@ -39,21 +39,45 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [loading, setLoading] = useState(true);
   const queryClient = useQueryClient();
 
-  const fetchProfile = async (userId: string) => {
+  const fetchProfile = async (userId: string, userMetadata: any) => {
     try {
-      const { data, error } = await supabase
+      let { data, error } = await supabase
         .from("profiles")
         .select("id, full_name, avatar_url, role")
         .eq("id", userId)
-        .maybeSingle(); // Use maybeSingle to avoid 406/JSON errors if record is missing
+        .maybeSingle();
 
       if (error) {
         console.error("Profile fetch error:", error);
         return;
       }
-      setProfile(data);
+
+      // If profile doesn't exist, create it immediately
+      if (!data) {
+        console.log("Profile missing, creating for user:", userId);
+        const newProfile = {
+          id: userId,
+          full_name: userMetadata?.full_name || 'HouseAid User',
+          role: userMetadata?.role || 'worker',
+          updated_at: new Date()
+        };
+        
+        const { data: createdData, error: createError } = await supabase
+          .from("profiles")
+          .upsert(newProfile)
+          .select()
+          .single();
+
+        if (createError) {
+          console.error("Failed to auto-create profile:", createError);
+        } else {
+          setProfile(createdData);
+        }
+      } else {
+        setProfile(data);
+      }
     } catch (error) {
-      console.error("Unexpected profile fetch error:", error);
+      console.error("Unexpected profile sync error:", error);
     }
   };
 
@@ -64,7 +88,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         setSession(session);
         setUser(session?.user ?? null);
         if (session?.user) {
-          await fetchProfile(session.user.id);
+          await fetchProfile(session.user.id, session.user.user_metadata);
         }
       } catch (error) {
         console.error("Error getting session:", error);
@@ -82,7 +106,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       
       if (session?.user) {
         if (event === 'SIGNED_IN' || event === 'TOKEN_REFRESHED' || !profile) {
-          await fetchProfile(session.user.id);
+          await fetchProfile(session.user.id, session.user.user_metadata);
         }
       } else {
         setProfile(null);
@@ -120,10 +144,21 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   };
 
   // Helper to get normalized role from either profile or metadata
-  const rawRole = (profile?.role || user?.user_metadata?.role || "worker").toLowerCase();
-  const userRole = rawRole.includes("worker") ? "worker" : 
-                   rawRole.includes("employer") || rawRole.includes("household") ? "employer" : 
-                   rawRole.includes("admin") ? "admin" : "worker";
+  const getDerivedRole = () => {
+    // 1. Priority: Actual database profile
+    if (profile?.role) return profile.role.toLowerCase();
+    
+    // 2. Secondary: Fresh user metadata (crucial for first-time login)
+    if (user?.user_metadata?.role) return user.user_metadata.role.toLowerCase();
+    
+    // 3. Fallback
+    return "worker";
+  };
+
+  const rawRole = getDerivedRole();
+  const userRole = rawRole.includes("admin") ? "admin" : 
+                   (rawRole.includes("employer") || rawRole.includes("household")) ? "employer" : 
+                   "worker";
 
   const value = {
     session,
