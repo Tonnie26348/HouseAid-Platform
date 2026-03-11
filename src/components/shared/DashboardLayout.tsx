@@ -49,7 +49,7 @@ const Sidebar = ({
   const isHousehold = userRole === "employer";
 
   const employerLinks = [
-    { to: "/platform", icon: Home, label: "Dashboard" },
+    { to: "/platform", icon: Home, label: "Employer Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
     { to: "/platform/transactions", icon: CreditCard, label: "Transactions" },
     { to: "/platform/profile", icon: User, label: "My Profile" },
@@ -60,7 +60,7 @@ const Sidebar = ({
   ];
 
   const workerLinks = [
-    { to: "/platform", icon: Home, label: "Dashboard" },
+    { to: "/platform", icon: Home, label: "Worker Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "Messages" },
     { to: "/platform/transactions", icon: CreditCard, label: "Transactions" },
     { to: "/platform/profile", icon: User, label: "My Profile" },
@@ -70,7 +70,7 @@ const Sidebar = ({
   ];
 
   const adminLinks = [
-    { to: "/platform", icon: Home, label: "Admin Panel" },
+    { to: "/platform", icon: Home, label: "Admin Dashboard" },
     { to: "/platform/messages", icon: MessageSquare, label: "System Messages" },
     { to: "/platform/all-workers", icon: ShieldCheck, label: "Verify Workers" },
     { to: "/platform/contracts", icon: FileText, label: "All Contracts" },

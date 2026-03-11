@@ -81,7 +81,7 @@ const Profile = () => {
           .from("profiles")
           .select("*")
           .eq("id", user.id)
-          .single();
+          .maybeSingle(); // Use maybeSingle to prevent crash if record is missing
 
         if (error) {
           toast({ title: "Error", description: error.message, variant: "destructive" });
@@ -106,7 +106,6 @@ const Profile = () => {
         }
       } catch (err: any) {
         console.error("Profile fetch error:", err);
-        toast({ title: "Error", description: "Failed to load profile", variant: "destructive" });
       } finally {
         setLoading(false);
       }
@@ -116,12 +115,13 @@ const Profile = () => {
 
   const onSubmit = async (values: z.infer<typeof profileSchema>) => {
     if (user) {
-        const { error } = await supabase.from("profiles").update({
+        const { error } = await supabase.from("profiles").upsert({ // Use upsert to create if missing
+            id: user.id,
             ...values,
             skills: values.skills?.split(',').map(s => s.trim()),
             benefits_offered: values.benefits_offered?.split(',').map(s => s.trim()),
             updated_at: new Date(),
-        }).eq("id", user.id);
+        });
 
         if (error) {
             toast({ title: "Update Failed", description: error.message, variant: "destructive" });
@@ -135,7 +135,8 @@ const Profile = () => {
     if (!event.target.files?.[0] || !user) return;
     const file = event.target.files[0];
     const fileExt = file.name.split('.').pop();
-    const fileName = `${user.id}.${fileExt}`;
+    // Use folder structure: userId/avatar.ext
+    const fileName = `${user.id}/avatar.${fileExt}`;
     
     setUploading(true);
     const { error } = await supabase.storage.from('avatars').upload(fileName, file, { upsert: true });
@@ -146,11 +147,12 @@ const Profile = () => {
       const { data } = supabase.storage.from('avatars').getPublicUrl(fileName);
       form.setValue('avatar_url', data.publicUrl);
       
-      // Update the profile record immediately with the new URL
-      await supabase.from("profiles").update({
+      // Update or Create the profile record immediately
+      await supabase.from("profiles").upsert({
+          id: user.id,
           avatar_url: data.publicUrl,
           updated_at: new Date(),
-      }).eq("id", user.id);
+      });
 
       toast({ title: "Avatar Updated" });
     }
